@@ -46,6 +46,10 @@ def _write_config(config_dir: Path, clone_url: str) -> None:
 
 def _no_prs_client(token: str | None = None) -> httpx.Client:
     def handler(request: httpx.Request) -> httpx.Response:
+        # plan #11 adds an `/issues` fetch alongside `/pulls`; answer it with no
+        # issues so this file's churn/rework-only tests are unaffected.
+        if request.url.path.endswith("/issues"):
+            return httpx.Response(200, json=[])
         assert "/pulls" in request.url.path
         return httpx.Response(200, json=[])
 
@@ -118,7 +122,7 @@ def test_rerun_is_byte_identical(
     assert set(day1_payload.keys()) == {"schema_version", "date", "totals", "per_repo"}
     assert day1_payload["schema_version"] == 1
     assert day1_payload["date"] == "2024-01-01"
-    assert set(day1_payload["totals"].keys()) == {"branch_churn", "main_rework"}
+    assert set(day1_payload["totals"].keys()) == {"branch_churn", "main_rework", "escalations"}
     # No merged PRs (mocked to return none) -> branch_churn totals are all zero/null.
     assert day1_payload["totals"]["branch_churn"] == {
         "gross_added": 0,
@@ -238,6 +242,10 @@ def test_pr_list_request_carries_real_default_branch(
 
     def make_capturing_client(token: str | None = None) -> httpx.Client:
         def handler(request: httpx.Request) -> httpx.Response:
+            # plan #11 adds an `/issues` fetch alongside `/pulls`; answer it with no
+            # issues so it never reaches the `base=` assertion below.
+            if request.url.path.endswith("/issues"):
+                return httpx.Response(200, json=[])
             assert "/pulls" in request.url.path
             seen_bases.append(request.url.params.get("base"))
             return httpx.Response(200, json=[])
