@@ -149,18 +149,21 @@ _COMMENTS_BY_NUMBER: dict[int, list[tuple[str, str]]] = {
 }
 
 
-def _make_client_factory():
+def _make_client_factory(
+    issues_meta: list[dict] = _ISSUES_META,
+    comments_by_number: dict[int, list[tuple[str, str]]] = _COMMENTS_BY_NUMBER,
+):
     def make_client(token: str | None = None) -> httpx.Client:
         def handler(request: httpx.Request) -> httpx.Response:
             path = request.url.path
             if path.endswith("/issues"):
                 assert request.url.params.get("state") == "all"
-                return httpx.Response(200, json=_ISSUES_META)
+                return httpx.Response(200, json=issues_meta)
             if "/issues/" in path and path.endswith("/comments"):
                 number = int(path.rsplit("/issues/", 1)[1].split("/", 1)[0])
                 body = [
                     {"created_at": created_at, "body": comment_body}
-                    for created_at, comment_body in _COMMENTS_BY_NUMBER[number]
+                    for created_at, comment_body in comments_by_number[number]
                 ]
                 return httpx.Response(200, json=body)
             assert "/pulls" in path
@@ -178,11 +181,12 @@ def _read_day(out_dir: Path, day: date) -> dict:
 def _run_collect(
     monkeypatch: pytest.MonkeyPatch, workdir: Path, out_dir: Path, cache_dir: Path,
     *, since: str, until: str,
+    make_client_factory=_make_client_factory,
 ) -> int:
     from ecosystem_statistics.__main__ import main
     import ecosystem_statistics.github as github
 
-    monkeypatch.setattr(github, "make_client", _make_client_factory())
+    monkeypatch.setattr(github, "make_client", make_client_factory())
     monkeypatch.chdir(workdir)
 
     return main(
@@ -262,6 +266,67 @@ def test_clarification_block_in_daily_json(
         monkeypatch, workdir, out_dir2, cache_dir2, since="2024-03-04", until="2024-03-05"
     ) == 0
     assert read_tree(out_dir) == read_tree(out_dir2)
+
+
+# ---------------------------------------------------------------------------
+# Reviewer finding R1: a child ticket closed long before `--since` must still feed
+# "asked" state -- `_fetch_histories` skips fetching its comments entirely (not just
+# filtering by comment date), so without a targeted top-up its real Clarification
+# comment would silently never reach `clarification.daily_breakdown`.
+# ---------------------------------------------------------------------------
+
+
+def test_clarification_sees_asked_state_from_child_closed_long_before_since(
+    tmp_path: Path, synthetic_repo: SyntheticRepo, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """`_fetch_histories` (collect.py) skips fetching an issue's comments entirely
+    when `closed_at` is before `--since` -- a real optimization for #11-#14, which
+    only ever need in-window activity. But #17's per-package `asked` tracking needs
+    a child ticket's full history regardless of how long ago the child itself
+    closed: ticket #100 asked (and was answered) via a Clarification long before this
+    window even starts, then closed. The epic (#101) later posts an in-window
+    Released comment naming #100 as a child. If #100's entire history is dropped,
+    the package wrongly counts as released without asking, purely because the child
+    happened to close early -- not because nobody asked."""
+    origin = synthetic_repo
+    origin.commit_file(
+        "a.py", "a\n", "init", when=datetime(2024, 3, 1, 12, 0, 0, tzinfo=timezone.utc)
+    )
+
+    workdir = tmp_path / "workspace"
+    _write_config(workdir / "config", origin.clone_url())
+    out_dir = workdir / "out"
+    cache_dir = workdir / "cache"
+
+    long_ago = date(2023, 1, 1)
+    issues_meta = [
+        {
+            "number": 100,
+            "created_at": _ts(long_ago, 8, 0),
+            # Closed long before --since (D1): the plain `_fetch_histories` skip
+            # would drop this issue's comments entirely.
+            "closed_at": _ts(long_ago, 12, 0),
+        },
+        {"number": 101, "created_at": _ts(D1, 8, 0), "closed_at": None},
+    ]
+    comments_by_number = {
+        100: [(_ts(long_ago, 9, 0), clarification_comment(1))],
+        101: [(_ts(D1, 9, 0), released_comment("epic #101 (children #100)"))],
+    }
+
+    assert (
+        _run_collect(
+            monkeypatch, workdir, out_dir, cache_dir,
+            since="2024-03-04", until="2024-03-05",
+            make_client_factory=lambda: _make_client_factory(issues_meta, comments_by_number),
+        )
+        == 0
+    )
+
+    day1 = _read_day(out_dir, D1)
+    clarification_block = day1["totals"]["clarification"]
+    assert clarification_block["released"] == 1
+    assert clarification_block["released_without_asking"] == 0
 
 
 # ---------------------------------------------------------------------------

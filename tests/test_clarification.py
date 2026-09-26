@@ -161,6 +161,27 @@ def test_verbatim_frame_from_spec_md_gives_frames_1_ac_1_premises_3_not_proven_0
     assert breakdown[day]["frames_without_block"] == 0
 
 
+def test_not_proven_counts_marker_lines_not_the_blocks_own_declared_field() -> None:
+    """Reviewer finding R2: no prior test had a Frame block whose declared
+    `not_proven` field diverged from the real marker-line count in the same
+    comment's free text, so an implementation that read `block["not_proven"]`
+    instead of counting `Not proven by this package:` lines would still have passed
+    every existing test. Here the block claims `not_proven: 9` but only 2 real
+    marker lines exist -- the counted value must be 2, proving the implementation
+    counts markers, not the block's own (never-read) field."""
+    day = date(2024, 3, 5)
+    body = (
+        "## Frame (gatekeeper)\n\n"
+        "- Not proven by this package: reason one\n"
+        "- Not proven by this package: reason two\n" + frame_block(not_proven=9)
+    )
+    issue = IssueHistory(number=1, closed_at=None, comments=((_ts(day), body),))
+
+    breakdown = clarification.daily_breakdown([issue], [day])
+
+    assert breakdown[day]["not_proven"] == 2
+
+
 # ---------------------------------------------------------------------------
 # PREMISE FALSIFIED marker: bulleted / bold / blockquoted count; mid-sentence and
 # backticked do not

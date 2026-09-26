@@ -142,6 +142,24 @@ def _package_key_and_members(ticket_number: int, body: str) -> tuple[int, set[in
     return package_id, members
 
 
+def referenced_package_members(issues: list[IssueHistory]) -> set[int]:
+    """Every ticket number named as a package member (`T`, the package id, or a
+    child) by a Released (gatekeeper) comment anywhere in `issues`. Used by
+    `collect._fetch_clarification_histories` to find which members
+    `collect._fetch_histories`' closed-before-`--since` skip may have dropped
+    entirely (not merely filtered by comment date, but never fetched at all), so a
+    real Clarification comment on an early-closed child ticket doesn't silently go
+    missing from the "asked" state (reviewer finding R1, package #17)."""
+    referenced: set[int] = set()
+    for issue in issues:
+        for _created_at, body in issue.comments:
+            if "Released" not in _headings(body):
+                continue
+            _key, members = _package_key_and_members(issue.number, body)
+            referenced.update(members)
+    return referenced
+
+
 def daily_breakdown(issues: list[IssueHistory], days: list[date]) -> dict[date, dict]:
     """Per UTC day D in `days`: how often the gatekeeper released a package without
     asking a human, and how heavy the clarifications/frames/lane-splits/re-cuts/

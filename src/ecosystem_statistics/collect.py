@@ -140,7 +140,16 @@ def _fetch_histories(
     night), and drops any fetched comment posted after the end of `--until` (otherwise
     a rerun of the same window could see newer comments and give different bytes) --
     history before `--since` is kept, since both #11's verdicts and #12's sessions use
-    each ticket's full history up to `--until`."""
+    each ticket's full history up to `--until`.
+
+    This closed-before-`--since` skip drops a matching issue's comments entirely, not
+    just the ones outside the window -- fine for #11-#14, which only ever look at
+    in-window activity plus each ticket's own history. #17's clarification metric is
+    the exception: a package's "asked" state can be set by a Clarification comment on
+    a *child* ticket that closed (and was skipped here) long before `--since`.
+    `_fetch_clarification_histories` tops this list up for that one metric, rather
+    than widening the skip below and reintroducing the "fetch every historical
+    issue's comments every night" cost for all four other metrics."""
     since, until = days[0], days[-1]
     issues_meta = github.list_issues(client, repo_cfg.owner, repo_cfg.name)
 
@@ -173,6 +182,63 @@ def _fetch_histories(
     return histories
 
 
+def _fetch_clarification_histories(
+    repo_cfg: config.RepoConfig,
+    *,
+    days: list[date],
+    client,
+    base_histories: list[escalations.IssueHistory],
+) -> list[escalations.IssueHistory]:
+    """`base_histories` (the same filtered set #11-#14 use) plus a targeted top-up for
+    any package member `_fetch_histories`' closed-before-`--since` skip dropped
+    entirely (reviewer finding R1, package #17): a Clarification comment on a child
+    ticket closed long before `--since` must still reach the "asked" tracking below,
+    or an epic's later in-window Released comment naming that child would wrongly
+    count the package as released without asking.
+
+    Fetches comments only for the specific tickets `clarification.
+    referenced_package_members` finds named as a package member by a Released
+    comment already present in `base_histories`, and not themselves present -- not
+    every historical closed issue in the repo -- so the other four metrics'
+    `_fetch_histories` call, and its performance characteristics, are untouched, and
+    the common case (no such gap) makes no extra request at all."""
+    present = {issue.number for issue in base_histories}
+    missing = clarification.referenced_package_members(base_histories) - present
+    if not missing:
+        return base_histories
+
+    until = days[-1]
+    issues_meta_by_number = {
+        meta.number: meta
+        for meta in github.list_issues(client, repo_cfg.owner, repo_cfg.name)
+    }
+    extra: list[escalations.IssueHistory] = []
+    for number in sorted(missing):
+        meta = issues_meta_by_number.get(number)
+        if meta is None:
+            continue
+        raw_comments = github.list_issue_comments(
+            client, repo_cfg.owner, repo_cfg.name, meta.number
+        )
+        comments = tuple(
+            (comment_created_at, body)
+            for comment_created_at, body in raw_comments
+            if _parse_day(comment_created_at) <= until
+        )
+        extra.append(
+            escalations.IssueHistory(
+                number=meta.number,
+                closed_at=meta.closed_at,
+                comments=comments,
+                labels=meta.labels,
+                created_at=meta.created_at,
+                state_reason=meta.state_reason,
+                title=meta.title,
+            )
+        )
+    return list(base_histories) + extra
+
+
 def _collect_repo(
     repo_cfg: config.RepoConfig,
     *,
@@ -202,7 +268,10 @@ def _collect_repo(
     rounds_by_day = rounds.daily_samples(histories, days)
     regression_chains_by_day = regression_chains.daily_breakdown(histories, days, full_name)
     throughput_by_day = throughput.daily_samples(histories, days, merged_prs_by_number)
-    clarification_by_day = clarification.daily_breakdown(histories, days)
+    clarification_histories = _fetch_clarification_histories(
+        repo_cfg, days=days, client=client, base_histories=histories
+    )
+    clarification_by_day = clarification.daily_breakdown(clarification_histories, days)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
