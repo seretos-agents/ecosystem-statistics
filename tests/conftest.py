@@ -265,6 +265,46 @@ def chain_table(refs: list[str]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def frame_block(
+    *, ac_rewritten: str = "yes", premises: int | str = 0, not_proven: int | str = 0
+) -> str:
+    """A `<!-- gatekeeper:frame v1 -->` machine block (plan #17), the same physical
+    shape as #17's own verbatim example in `spec.md`. `premises`/`not_proven` accept a
+    non-digit string too, for the malformed-block edge case (plan #17: "A non-digit
+    value counts as 0"). Note the block's own `not_proven` field is never read by
+    `clarification.py` -- only `ac_rewritten`/`premises` are -- so tests that need a
+    specific `not_proven` *count* drive it via marker lines in the comment body, not
+    via this field."""
+    return (
+        "<!-- gatekeeper:frame v1\n"
+        f"ac_rewritten: {ac_rewritten}\n"
+        f"premises: {premises}\n"
+        f"not_proven: {not_proven}\n"
+        "-->\n"
+    )
+
+
+def clarification_comment(n: int) -> str:
+    """A `## Clarification needed (gatekeeper)` comment (plan #17) carrying `n`
+    `### Q<i>` questions, 1-indexed."""
+    lines = ["## Clarification needed (gatekeeper)", ""]
+    for i in range(1, n + 1):
+        lines.append(f"### Q{i}")
+        lines.append(f"Question {i} text?")
+        lines.append("")
+    return "\n".join(lines)
+
+
+def released_comment(package_line: str | None) -> str:
+    """A `## Released (gatekeeper)` comment (plan #17), with an optional `Package:`
+    line -- `package_line=None` omits the line entirely, for the no-`Package:`-line
+    fallback-to-own-ticket case."""
+    body = "## Released (gatekeeper)\n\n"
+    if package_line is not None:
+        body += f"Package: {package_line}\n"
+    return body
+
+
 def read_tree(root: Path) -> dict[str, bytes]:
     """All files under `root`, keyed by POSIX-style relative path, for byte-for-byte
     comparison across collector runs (AGENTS.md: reruns must be byte-identical)."""
