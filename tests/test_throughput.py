@@ -83,6 +83,30 @@ def test_not_planned_close_with_ci_green_counts_as_pipeline() -> None:
     assert result["closed"]["manual"] == 0
 
 
+def test_close_with_unrecognized_state_reason_counts_as_other() -> None:
+    """Distinguishes the `other` bucket from a hardcoded 0 (test-critic round 1, note
+    2): every close in the driving-test fixture is `completed`/`not_planned`, so a
+    hardcoded `other: 0` would pass there too -- this ticket's `state_reason` is
+    neither."""
+    issue = IssueHistory(
+        number=25,
+        created_at=_ts(D, 0, 0),
+        closed_at=_ts(D, 5, 0),
+        state_reason="duplicate",
+        comments=(),
+    )
+
+    result = _summarize_days([issue], [D], {})
+
+    assert result["closed"] == {
+        "completed": 0,
+        "not_planned": 0,
+        "other": 1,
+        "pipeline": 0,
+        "manual": 1,
+    }
+
+
 # ---------------------------------------------------------------------------
 # ci_green_to_done fallback: merged PR, else closed_at, else no sample.
 # ---------------------------------------------------------------------------
@@ -114,6 +138,27 @@ def test_ci_green_to_done_has_no_sample_while_ticket_is_still_open() -> None:
     result = _summarize_days([issue], [D], {})
 
     assert result["stages"]["ci_green_to_done"]["n"] == 0
+
+
+def test_ci_green_to_done_uses_merged_at_when_pr_is_in_merged_prs() -> None:
+    """Distinguishes the `merged_prs` branch from the `closed_at` fallback (test-critic
+    round 1, note 1): the driving-test fixture's only merged-PR case (#1) has
+    `merged_at` and `closed_at` coincide, so a naive implementation that ignores
+    `merged_prs`/`pr:` entirely and always ends at `closed_at` would also pass it. Here
+    `merged_at` (D 10:00) and `closed_at` (D 20:00) differ, so only a real `merged_prs`
+    lookup gives the expected 2h sample instead of 12h."""
+    issue = IssueHistory(
+        number=24,
+        created_at=_ts(D, 0, 0),
+        closed_at=_ts(D, 20, 0),
+        state_reason="completed",
+        comments=((_ts(D, 8, 0), adev_event_block("ci-green", pr="42")),),
+    )
+    merged_prs = {42: datetime(D.year, D.month, D.day, 10, 0, tzinfo=timezone.utc)}
+
+    result = _summarize_days([issue], [D], merged_prs)
+
+    assert result["stages"]["ci_green_to_done"] == {"n": 1, "median": 2.0, "p90": 2.0}
 
 
 def test_ci_green_to_done_falls_back_to_closed_at_when_pr_is_empty() -> None:
