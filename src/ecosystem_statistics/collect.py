@@ -6,10 +6,10 @@ from __future__ import annotations
 
 import os
 import sys
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from . import churn, config, github, gitrepo, output
+from . import churn, config, escalations, github, gitrepo, output
 
 
 def _daterange(since: date, until: date) -> list[date]:
@@ -23,6 +23,10 @@ def _daterange(since: date, until: date) -> list[date]:
 
 def _round4(value: float) -> float:
     return round(value, 4)
+
+
+def _parse_day(raw: str) -> date:
+    return datetime.strptime(raw, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).date()
 
 
 def _merge_branch_churn(blocks: list[dict]) -> dict:
@@ -45,6 +49,64 @@ def _merge_main_rework(blocks: list[dict], window_days: int) -> dict:
     }
 
 
+def _merge_escalations(blocks: list[dict]) -> dict:
+    """Sum `in_progress`/`escalated`/`auto_answered` and `by_reason` across repos, then
+    recompute `value` from the summed counts -- never last-write-wins (test-critic
+    note: a single-repo fixture cannot itself distinguish a real sum from a copy)."""
+    in_progress = sum(b["in_progress"] for b in blocks)
+    escalated = sum(b["escalated"] for b in blocks)
+    auto_answered = sum(b["auto_answered"] for b in blocks)
+    by_reason: dict[str, int] = {}
+    for block in blocks:
+        for reason, count in block["by_reason"].items():
+            by_reason[reason] = by_reason.get(reason, 0) + count
+    value = None if in_progress == 0 else _round4(escalated / in_progress)
+    return {
+        "in_progress": in_progress,
+        "escalated": escalated,
+        "auto_answered": auto_answered,
+        "value": value,
+        "by_reason": by_reason,
+    }
+
+
+def _collect_escalations_for_repo(
+    repo_cfg: config.RepoConfig,
+    *,
+    days: list[date],
+    client,
+) -> dict[date, dict]:
+    """Every issue's classification-relevant history for one repo, rolled up into a
+    per-day `escalations` breakdown. Fetches comments only for issues created on or
+    before the end of `--until` and not closed before `--since` (otherwise every
+    historical issue's comments are fetched every night), and drops any fetched
+    comment posted after the end of `--until` (otherwise a rerun of the same window
+    could see newer comments and give different bytes) -- history before `--since` is
+    kept, since verdicts use each ticket's full history up to `--until`."""
+    since, until = days[0], days[-1]
+    issues_meta = github.list_issues(client, repo_cfg.owner, repo_cfg.name)
+
+    histories: list[escalations.IssueHistory] = []
+    for number, created_at, closed_at in issues_meta:
+        if _parse_day(created_at) > until:
+            continue
+        if closed_at is not None and _parse_day(closed_at) < since:
+            continue
+        raw_comments = github.list_issue_comments(
+            client, repo_cfg.owner, repo_cfg.name, number
+        )
+        comments = tuple(
+            (comment_created_at, body)
+            for comment_created_at, body in raw_comments
+            if _parse_day(comment_created_at) <= until
+        )
+        histories.append(
+            escalations.IssueHistory(number=number, closed_at=closed_at, comments=comments)
+        )
+
+    return escalations.daily_breakdown(histories, days)
+
+
 def _collect_repo(
     repo_cfg: config.RepoConfig,
     *,
@@ -64,6 +126,7 @@ def _collect_repo(
     prs = github.list_merged_prs(
         client, repo_cfg.owner, repo_cfg.name, default_branch, days[0], days[-1]
     )
+    escalations_by_day = _collect_escalations_for_repo(repo_cfg, days=days, client=client)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
@@ -121,6 +184,7 @@ def _collect_repo(
                 "window_days": rework.window_days,
                 "value": rework.value,
             },
+            "escalations": escalations_by_day[day],
         }
 
     return per_day
@@ -156,6 +220,7 @@ def run_collect(
         per_repo = per_repo_by_day[day]
         branch_blocks = [entry["branch_churn"] for entry in per_repo.values()]
         rework_blocks = [entry["main_rework"] for entry in per_repo.values()]
+        escalation_blocks = [entry["escalations"] for entry in per_repo.values()]
         payload = {
             "schema_version": 1,
             "date": day.isoformat(),
@@ -164,6 +229,7 @@ def run_collect(
                 "main_rework": _merge_main_rework(
                     rework_blocks, window_days=churn_cfg.rework_window_days
                 ),
+                "escalations": _merge_escalations(escalation_blocks),
             },
             "per_repo": per_repo,
         }

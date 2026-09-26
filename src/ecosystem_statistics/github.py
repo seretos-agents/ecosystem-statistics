@@ -97,6 +97,25 @@ def _next_link(response: httpx.Response) -> str | None:
     return link["url"] if link else None
 
 
+def _paginate(
+    client: httpx.Client,
+    url: str,
+    *,
+    params: dict[str, str] | None = None,
+    sleep=_time.sleep,
+    now=_time.time,
+):
+    """Yield every item across a `Link: rel="next"`-paginated GitHub REST listing, one
+    page at a time. A generator, not a list: a caller that stops iterating early (e.g.
+    `list_merged_prs`'s newest-updated-first early stop) never triggers the next page's
+    request."""
+    while url:
+        response = request(client, "GET", url, params=params, sleep=sleep, now=now)
+        params = None  # only the first request needs query params; Link URLs carry them
+        yield from response.json()
+        url = _next_link(response)
+
+
 def list_merged_prs(
     client: httpx.Client,
     owner: str,
@@ -117,8 +136,8 @@ def list_merged_prs(
     # A full absolute URL, not a base_url-relative path: `make_client` sets a base_url,
     # but a test double standing in for it (e.g. R3's MockTransport client) may not, and
     # a bare path is not a valid request target on its own.
-    url: str | None = f"https://api.github.com/repos/{owner}/{repo}/pulls"
-    params: dict[str, str] | None = {
+    url = f"https://api.github.com/repos/{owner}/{repo}/pulls"
+    params = {
         "state": "closed",
         "base": base,
         "sort": "updated",
@@ -126,37 +145,70 @@ def list_merged_prs(
         "per_page": "100",
     }
 
-    while url:
-        response = request(client, "GET", url, params=params, sleep=sleep, now=now)
-        params = None  # only the first request needs query params; Link URLs carry them
-        items = response.json()
-
-        stop = False
-        for item in items:
-            if _parse_github_datetime(item["updated_at"]) < since_start:
-                stop = True
-                break
-            merged_at_raw = item.get("merged_at")
-            if not merged_at_raw:
-                continue
-            merged_at = _parse_github_datetime(merged_at_raw)
-            if not (since <= merged_at.date() <= until):
-                continue
-            merge_sha = item.get("merge_commit_sha")
-            if not merge_sha:
-                print(
-                    f"skip PR #{item['number']} in {owner}/{repo}: no merge_commit_sha",
-                    file=sys.stderr,
-                )
-                continue
-            results.append(
-                MergedPullRequest(
-                    number=item["number"], merged_at=merged_at, merge_commit_sha=merge_sha
-                )
-            )
-
-        if stop:
+    for item in _paginate(client, url, params=params, sleep=sleep, now=now):
+        if _parse_github_datetime(item["updated_at"]) < since_start:
             break
-        url = _next_link(response)
+        merged_at_raw = item.get("merged_at")
+        if not merged_at_raw:
+            continue
+        merged_at = _parse_github_datetime(merged_at_raw)
+        if not (since <= merged_at.date() <= until):
+            continue
+        merge_sha = item.get("merge_commit_sha")
+        if not merge_sha:
+            print(
+                f"skip PR #{item['number']} in {owner}/{repo}: no merge_commit_sha",
+                file=sys.stderr,
+            )
+            continue
+        results.append(
+            MergedPullRequest(
+                number=item["number"], merged_at=merged_at, merge_commit_sha=merge_sha
+            )
+        )
 
     return results
+
+
+# ---------------------------------------------------------------------------
+# Issue + comment listing (plan #11, R2/R3)
+# ---------------------------------------------------------------------------
+
+
+def list_issues(
+    client: httpx.Client,
+    owner: str,
+    repo: str,
+    *,
+    sleep=_time.sleep,
+    now=_time.time,
+) -> list[tuple[int, str, str | None]]:
+    """All issues in `owner/repo` (`state=all`), as `(number, created_at, closed_at)`.
+    PR items (GitHub's `/issues` endpoint returns both) are skipped -- classification
+    never applies to a PR."""
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues"
+    params = {"state": "all", "per_page": "100"}
+    results: list[tuple[int, str, str | None]] = []
+    for item in _paginate(client, url, params=params, sleep=sleep, now=now):
+        if "pull_request" in item:
+            continue
+        results.append((item["number"], item["created_at"], item.get("closed_at")))
+    return results
+
+
+def list_issue_comments(
+    client: httpx.Client,
+    owner: str,
+    repo: str,
+    number: int,
+    *,
+    sleep=_time.sleep,
+    now=_time.time,
+) -> list[tuple[str, str]]:
+    """All comments on one issue, as `(created_at, body)` in API order."""
+    url = f"https://api.github.com/repos/{owner}/{repo}/issues/{number}/comments"
+    params = {"per_page": "100"}
+    return [
+        (item["created_at"], item["body"])
+        for item in _paginate(client, url, params=params, sleep=sleep, now=now)
+    ]
