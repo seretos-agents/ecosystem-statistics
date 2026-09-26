@@ -5,6 +5,12 @@
 # plugins/libs on Projects-v2 board `seretos-agents` #1 — excluding this repo itself).
 # Widening to the `Seretos/*` org (a *different* owner, its own board `Seretos` #2) or to
 # `seretos-games/*` is a config change here, not a code change.
+#
+# Each entry under `repos:` is normally just the repo name (its clone URL is derived as
+# https://github.com/<owner>/<name>.git). An entry may instead be a mapping with `name`
+# and an explicit `clone_url` override, e.g.:
+#   - name: some-repo
+#     clone_url: https://github.com/some-other-owner/some-repo.git
 owner: seretos-agents
 repos:
   - agent-chrome-wrapper
