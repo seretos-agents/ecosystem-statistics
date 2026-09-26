@@ -9,6 +9,7 @@ rather than dependent on wall-clock time.
 
 from __future__ import annotations
 
+import html as _html
 import os
 import subprocess
 from datetime import datetime, timezone
@@ -167,6 +168,59 @@ def make_fixup_branch(repo: SyntheticRepo) -> None:
 
     lockfile = "\n".join(f"dep{i}" for i in range(100)) + "\n"
     repo.commit_file("package-lock.json", lockfile, "add lockfile (excluded path)")
+
+
+def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)") -> str:
+    """A `<!-- adev:event v1 -->` machine block, rendered exactly as
+    `process-developer`'s `event_block.py` prints it (plan #11's grounding: the lower
+    plugin's SKILL.md, "What the renderer prints ..."), with a full `rounds:` line so
+    `escalations.py`'s cumulative rebase-`f` reader always has a value. Shared by
+    `test_escalations.py` (R2) and `test_collect_escalations.py` (R1) so the two test
+    files' fixtures render the block identically."""
+    return (
+        "<!-- adev:event v1\n"
+        f"event: {event}\n"
+        "package: 11\n"
+        "attempt: 1\n"
+        "generation: 1/1\n"
+        "rounds: plan-critic=0/3(0f,0i) test-critic=0/3(0f,0i) review=0/3(0f,0i) "
+        f"ci=0/3(0f,0i) rebase={rebase}\n"
+        "pr:\n"
+        "ci_run:\n"
+        "-->\n"
+    )
+
+
+def ato_event_block(event: str, *, reason: str = "") -> str:
+    """A `<!-- ato:event v1 -->` machine block, rendered exactly as
+    agent-ticket-orchestrator's `ato-event.py render` prints it (all eight keys always
+    present, fixed order)."""
+    return (
+        "<!-- ato:event v1\n"
+        f"event: {event}\n"
+        "package: 11\n"
+        f"reason: {reason}\n"
+        "pr: \n"
+        "merge_sha: \n"
+        "cost_usd: \n"
+        "duration_ms: \n"
+        "turns: \n"
+        "-->\n"
+    )
+
+
+def fenced(block: str) -> str:
+    """Wrap a machine block in a code fence -- one of the three physical forms the
+    parser must tolerate (plan #11, R2), even though SKILL.md itself never posts a
+    fenced block."""
+    return f"```\n{block}```\n"
+
+
+def escaped(block: str) -> str:
+    """HTML-escape a machine block's angle brackets -- the third physical form the
+    parser must tolerate, as if the comment body had round-tripped through something
+    that rendered `<`/`>` as entities."""
+    return _html.escape(block, quote=False)
 
 
 def read_tree(root: Path) -> dict[str, bytes]:
