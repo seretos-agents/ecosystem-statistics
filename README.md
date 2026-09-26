@@ -33,6 +33,17 @@ workflow).
   `daily/YYYY-MM-DD.json` (UTC), plus an `index.json` listing every day collected so far.
 - Runs are idempotent: re-collecting the same window reproduces byte-identical JSON.
 
+## Nightly publish
+
+`.github/workflows/nightly.yml` runs `python -m ecosystem_statistics publish` every night
+at 03:17 UTC, collecting and publishing the previous UTC calendar day to `data`. It commits
+and pushes only when the collected output actually differs from what's already there.
+
+To backfill past days, dispatch the workflow manually (Actions tab → `nightly` → *Run
+workflow*) with `since`/`until` inputs (`YYYY-MM-DD`, both required together) for the
+window to collect. Fire dispatches one at a time -- see the `concurrency` comment in
+`nightly.yml` for why a burst of several in a row can drop all but the last one.
+
 ## Development
 
 ```bash

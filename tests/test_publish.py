@@ -48,7 +48,13 @@ def _fake_collect(payloads: dict[str, dict]) -> Callable[[Path], None]:
     def collect(out_dir: Path) -> None:
         for day_str, payload in payloads.items():
             output.write_daily(out_dir, day_str, payload)
-        output.rebuild_index(out_dir)
+        if payloads:
+            # A real run always collects at least one day (`_daterange` never yields
+            # an empty window); `rebuild_index` unconditionally writes `index.json`
+            # even with zero daily files, so calling it here for R1's empty-payload
+            # case would itself create a diff, defeating "empty collect -> no diff"
+            # (see test-critic-1's unverifiable-premise note on this fixture).
+            output.rebuild_index(out_dir)
 
     return collect
 
