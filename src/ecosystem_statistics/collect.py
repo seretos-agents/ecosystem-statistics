@@ -11,6 +11,7 @@ from pathlib import Path
 
 from . import (
     churn,
+    clarification,
     config,
     escalations,
     github,
@@ -78,6 +79,34 @@ def _merge_escalations(blocks: list[dict]) -> dict:
         "value": value,
         "by_reason": by_reason,
     }
+
+
+_CLARIFICATION_INT_KEYS = (
+    "released",
+    "released_without_asking",
+    "clarifications",
+    "questions",
+    "hard_clarifications",
+    "frames",
+    "frames_ac_rewritten",
+    "premises",
+    "not_proven",
+    "frames_without_block",
+    "lane_splits",
+    "re_cuts",
+    "premise_falsified",
+)
+
+
+def _merge_clarification(blocks: list[dict]) -> dict:
+    """Sum every integer counter across repos and recompute `value` from the summed
+    counts -- never last-write-wins (same rationale as `_merge_escalations`)."""
+    merged = {key: sum(b[key] for b in blocks) for key in _CLARIFICATION_INT_KEYS}
+    released = merged["released"]
+    merged["value"] = (
+        None if released == 0 else _round4(merged["released_without_asking"] / released)
+    )
+    return merged
 
 
 def _merge_regression_chains(blocks: list[dict]) -> dict:
@@ -173,6 +202,7 @@ def _collect_repo(
     rounds_by_day = rounds.daily_samples(histories, days)
     regression_chains_by_day = regression_chains.daily_breakdown(histories, days, full_name)
     throughput_by_day = throughput.daily_samples(histories, days, merged_prs_by_number)
+    clarification_by_day = clarification.daily_breakdown(histories, days)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
@@ -234,6 +264,7 @@ def _collect_repo(
             "rounds": rounds.summarize([rounds_by_day[day]]),
             "regression_chains": regression_chains_by_day[day],
             "throughput": throughput.summarize([throughput_by_day[day]]),
+            "clarification": clarification_by_day[day],
         }
 
     return per_day, rounds_by_day, throughput_by_day
@@ -277,6 +308,7 @@ def run_collect(
         rework_blocks = [entry["main_rework"] for entry in per_repo.values()]
         escalation_blocks = [entry["escalations"] for entry in per_repo.values()]
         regression_chain_blocks = [entry["regression_chains"] for entry in per_repo.values()]
+        clarification_blocks = [entry["clarification"] for entry in per_repo.values()]
         payload = {
             "schema_version": 1,
             "date": day.isoformat(),
@@ -289,6 +321,7 @@ def run_collect(
                 "rounds": rounds.summarize(rounds_samples_by_day[day]),
                 "regression_chains": _merge_regression_chains(regression_chain_blocks),
                 "throughput": throughput.summarize(throughput_samples_by_day[day]),
+                "clarification": _merge_clarification(clarification_blocks),
             },
             "per_repo": per_repo,
         }

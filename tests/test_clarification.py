@@ -87,17 +87,24 @@ def test_frame_block_parsed_raw_fenced_and_escaped() -> None:
     raw_body = heading + frame_block(ac_rewritten="yes", premises=2, not_proven=0)
     fenced_body = heading + fenced(frame_block(ac_rewritten="yes", premises=2, not_proven=0))
     escaped_body = heading + escaped(frame_block(ac_rewritten="yes", premises=2, not_proven=0))
+    # test-critic tautology::F1: every other block in this batch has ac_rewritten:
+    # "yes", so an implementation that increments frames_ac_rewritten for every block
+    # found -- never actually reading the field -- would still pass. This fourth
+    # issue's block has ac_rewritten: "no", so frames_ac_rewritten must stay at 3
+    # (not rise to 4) while frames and premises both still count it.
+    not_rewritten_body = heading + frame_block(ac_rewritten="no", premises=1, not_proven=0)
     issues = [
         IssueHistory(number=1, closed_at=None, comments=((_ts(day), raw_body),)),
         IssueHistory(number=2, closed_at=None, comments=((_ts(day), fenced_body),)),
         IssueHistory(number=3, closed_at=None, comments=((_ts(day), escaped_body),)),
+        IssueHistory(number=4, closed_at=None, comments=((_ts(day), not_rewritten_body),)),
     ]
 
     breakdown = clarification.daily_breakdown(issues, [day])
 
-    assert breakdown[day]["frames"] == 3
+    assert breakdown[day]["frames"] == 4
     assert breakdown[day]["frames_ac_rewritten"] == 3
-    assert breakdown[day]["premises"] == 6
+    assert breakdown[day]["premises"] == 7
     assert breakdown[day]["frames_without_block"] == 0
 
 
@@ -222,14 +229,26 @@ def test_clarification_on_child_counts_as_asked_via_released_children_list() -> 
 
 
 def test_released_with_no_package_line_falls_back_to_own_ticket() -> None:
+    """test-critic tautology::F3: ticket #42 has a prior Clarification before its
+    no-`Package:`-line Released, so whether the fallback key/member is really `T`
+    itself is observable -- an implementation that treats a missing `Package:` line as
+    having no members (always "without asking"), or that files it under some other
+    key, would wrongly still show `released_without_asking == 1` instead of 0."""
     day = date(2024, 3, 5)
-    issue = IssueHistory(number=42, closed_at=None, comments=((_ts(day), released_comment(None)),))
+    issue = IssueHistory(
+        number=42,
+        closed_at=None,
+        comments=(
+            (_ts(day, 9, 0), clarification_comment(1)),
+            (_ts(day, 10, 0), released_comment(None)),
+        ),
+    )
 
     breakdown = clarification.daily_breakdown([issue], [day])
 
     assert breakdown[day]["released"] == 1
-    assert breakdown[day]["released_without_asking"] == 1
-    assert breakdown[day]["value"] == 1.0
+    assert breakdown[day]["released_without_asking"] == 0
+    assert breakdown[day]["value"] == 0.0
 
 
 def test_combined_clarification_and_released_comment_counts_as_asked() -> None:
