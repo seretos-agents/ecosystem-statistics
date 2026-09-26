@@ -170,7 +170,9 @@ def make_fixup_branch(repo: SyntheticRepo) -> None:
     repo.commit_file("package-lock.json", lockfile, "add lockfile (excluded path)")
 
 
-def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | None = None) -> str:
+def adev_event_block(
+    event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | None = None, pr: str = ""
+) -> str:
     """A `<!-- adev:event v1 -->` machine block, rendered exactly as
     `process-developer`'s `event_block.py` prints it (plan #11's grounding: the lower
     plugin's SKILL.md, "What the renderer prints ..."), with a full `rounds:` line so
@@ -182,7 +184,11 @@ def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | No
     `rebase` -- for a caller that needs a specific dev or prose rounds snapshot (e.g.
     `test_collect_rounds.py`'s fixture tickets). Every other gate is hardcoded; only
     `rebase` has its own shorthand (`rebase=`), and the default output is unchanged
-    when neither is passed."""
+    when neither is passed.
+
+    `pr` (plan #14) fills the `pr:` line -- a `ci-green` block whose `ci_green_to_done`
+    stage samples off `merged_prs` has to name the PR it belongs to. Default output is
+    unchanged when it is not passed."""
     rounds_line = (
         rounds
         if rounds is not None
@@ -191,6 +197,7 @@ def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | No
             f"ci=0/3(0f,0i) rebase={rebase}"
         )
     )
+    pr_line = f"pr: {pr}" if pr else "pr:"
     return (
         "<!-- adev:event v1\n"
         f"event: {event}\n"
@@ -198,7 +205,7 @@ def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | No
         "attempt: 1\n"
         "generation: 1/1\n"
         f"rounds: {rounds_line}\n"
-        "pr:\n"
+        f"{pr_line}\n"
         "ci_run:\n"
         "-->\n"
     )

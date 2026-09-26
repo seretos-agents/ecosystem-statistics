@@ -9,7 +9,17 @@ import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from . import churn, config, escalations, github, gitrepo, output, regression_chains, rounds
+from . import (
+    churn,
+    config,
+    escalations,
+    github,
+    gitrepo,
+    output,
+    regression_chains,
+    rounds,
+    throughput,
+)
 
 
 def _daterange(since: date, until: date) -> list[date]:
@@ -106,13 +116,13 @@ def _fetch_histories(
     issues_meta = github.list_issues(client, repo_cfg.owner, repo_cfg.name)
 
     histories: list[escalations.IssueHistory] = []
-    for number, created_at, closed_at, labels in issues_meta:
-        if _parse_day(created_at) > until:
+    for meta in issues_meta:
+        if _parse_day(meta.created_at) > until:
             continue
-        if closed_at is not None and _parse_day(closed_at) < since:
+        if meta.closed_at is not None and _parse_day(meta.closed_at) < since:
             continue
         raw_comments = github.list_issue_comments(
-            client, repo_cfg.owner, repo_cfg.name, number
+            client, repo_cfg.owner, repo_cfg.name, meta.number
         )
         comments = tuple(
             (comment_created_at, body)
@@ -121,7 +131,13 @@ def _fetch_histories(
         )
         histories.append(
             escalations.IssueHistory(
-                number=number, closed_at=closed_at, comments=comments, labels=labels
+                number=meta.number,
+                closed_at=meta.closed_at,
+                comments=comments,
+                labels=meta.labels,
+                created_at=meta.created_at,
+                state_reason=meta.state_reason,
+                title=meta.title,
             )
         )
 
@@ -136,11 +152,12 @@ def _collect_repo(
     churn_cfg: config.ChurnConfig,
     client,
     token: str | None,
-) -> tuple[dict[date, dict], dict[date, rounds.DaySamples]]:
-    """branch_churn + main_rework + escalations + rounds blocks for one repo, for every
-    day in `days`. Also returns the day's raw `rounds.DaySamples`, so `run_collect` can
-    pool them across repos for `totals["rounds"]` -- median/p90 cannot be recomputed
-    from an already-summarized per-repo block."""
+) -> tuple[dict[date, dict], dict[date, rounds.DaySamples], dict[date, throughput.DayThroughput]]:
+    """branch_churn + main_rework + escalations + rounds + throughput blocks for one
+    repo, for every day in `days`. Also returns the day's raw `rounds.DaySamples` and
+    `throughput.DayThroughput`, so `run_collect` can pool them across repos for
+    `totals["rounds"]`/`totals["throughput"]` -- median/p90 cannot be recomputed from an
+    already-summarized per-repo block."""
     repo_path = gitrepo.ensure_repo(
         repo_cfg.clone_url, cache_dir, repo_cfg.owner, repo_cfg.name, token=token
     )
@@ -150,10 +167,12 @@ def _collect_repo(
     prs = github.list_merged_prs(
         client, repo_cfg.owner, repo_cfg.name, default_branch, days[0], days[-1]
     )
+    merged_prs_by_number = {pr.number: pr.merged_at for pr in prs}
     histories = _fetch_histories(repo_cfg, days=days, client=client)
     escalations_by_day = escalations.daily_breakdown(histories, days)
     rounds_by_day = rounds.daily_samples(histories, days)
     regression_chains_by_day = regression_chains.daily_breakdown(histories, days, full_name)
+    throughput_by_day = throughput.daily_samples(histories, days, merged_prs_by_number)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
@@ -214,9 +233,10 @@ def _collect_repo(
             "escalations": escalations_by_day[day],
             "rounds": rounds.summarize([rounds_by_day[day]]),
             "regression_chains": regression_chains_by_day[day],
+            "throughput": throughput.summarize([throughput_by_day[day]]),
         }
 
-    return per_day, rounds_by_day
+    return per_day, rounds_by_day, throughput_by_day
 
 
 def run_collect(
@@ -231,9 +251,12 @@ def run_collect(
     try:
         per_repo_by_day: dict[date, dict[str, dict]] = {day: {} for day in days}
         rounds_samples_by_day: dict[date, list[rounds.DaySamples]] = {day: [] for day in days}
+        throughput_samples_by_day: dict[date, list[throughput.DayThroughput]] = {
+            day: [] for day in days
+        }
         for repo_cfg in repos:
             full_name = f"{repo_cfg.owner}/{repo_cfg.name}"
-            per_day, repo_rounds_by_day = _collect_repo(
+            per_day, repo_rounds_by_day, repo_throughput_by_day = _collect_repo(
                 repo_cfg,
                 days=days,
                 cache_dir=cache_dir,
@@ -244,6 +267,7 @@ def run_collect(
             for day, blocks in per_day.items():
                 per_repo_by_day[day][full_name] = blocks
                 rounds_samples_by_day[day].append(repo_rounds_by_day[day])
+                throughput_samples_by_day[day].append(repo_throughput_by_day[day])
     finally:
         client.close()
 
@@ -264,6 +288,7 @@ def run_collect(
                 "escalations": _merge_escalations(escalation_blocks),
                 "rounds": rounds.summarize(rounds_samples_by_day[day]),
                 "regression_chains": _merge_regression_chains(regression_chain_blocks),
+                "throughput": throughput.summarize(throughput_samples_by_day[day]),
             },
             "per_repo": per_repo,
         }

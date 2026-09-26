@@ -79,12 +79,19 @@ class IssueHistory:
 
     `labels` (plan #13) is the ticket's *current* label set, not history -- GitHub's
     `/issues` payload carries no label-change timeline, so there is nothing to
-    snapshot per day."""
+    snapshot per day.
+
+    `created_at`/`state_reason`/`title` (plan #14) are listing-level `IssueMeta`
+    fields carried through unchanged, so `throughput.py` can classify a ticket's
+    close reason and its `chore(deps)` bump status without a second fetch."""
 
     number: int
     closed_at: str | None
     comments: tuple[tuple[str, str], ...]
     labels: tuple[str, ...] = ()
+    created_at: str | None = None
+    state_reason: str | None = None
+    title: str = ""
 
 
 @dataclass(frozen=True)

@@ -175,6 +175,21 @@ def list_merged_prs(
 # ---------------------------------------------------------------------------
 
 
+@dataclass(frozen=True)
+class IssueMeta:
+    """One issue's listing-level metadata, as returned by `list_issues` (plan #14
+    widens this from a positional 4-tuple to a named, frozen shape once a fifth and
+    sixth field -- `state_reason`, `title` -- joined `labels`; a 6-field positional
+    tuple would be unreadable at call sites)."""
+
+    number: int
+    created_at: str
+    closed_at: str | None
+    labels: tuple[str, ...]
+    state_reason: str | None
+    title: str
+
+
 def list_issues(
     client: httpx.Client,
     owner: str,
@@ -182,20 +197,30 @@ def list_issues(
     *,
     sleep=_time.sleep,
     now=_time.time,
-) -> list[tuple[int, str, str | None, tuple[str, ...]]]:
-    """All issues in `owner/repo` (`state=all`), as
-    `(number, created_at, closed_at, labels)`. PR items (GitHub's `/issues` endpoint
-    returns both) are skipped -- classification never applies to a PR. `labels` (plan
-    #13) is the issue's current, sorted label-name tuple; `or []` tolerates mocked
-    `/issues` payloads that predate this field and carry no `labels` key at all."""
+) -> list[IssueMeta]:
+    """All issues in `owner/repo` (`state=all`), as `IssueMeta`. PR items (GitHub's
+    `/issues` endpoint returns both) are skipped -- classification never applies to a
+    PR. `labels` (plan #13) is the issue's current, sorted label-name tuple; `or []`
+    tolerates mocked `/issues` payloads that predate this field and carry no `labels`
+    key at all. `state_reason`/`title` (plan #14) default via `.get` the same way, for
+    payloads that predate those fields."""
     url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {"state": "all", "per_page": "100"}
-    results: list[tuple[int, str, str | None, tuple[str, ...]]] = []
+    results: list[IssueMeta] = []
     for item in _paginate(client, url, params=params, sleep=sleep, now=now):
         if "pull_request" in item:
             continue
         labels = tuple(sorted(label["name"] for label in item.get("labels") or []))
-        results.append((item["number"], item["created_at"], item.get("closed_at"), labels))
+        results.append(
+            IssueMeta(
+                number=item["number"],
+                created_at=item["created_at"],
+                closed_at=item.get("closed_at"),
+                labels=labels,
+                state_reason=item.get("state_reason"),
+                title=item.get("title") or "",
+            )
+        )
     return results
 
 
