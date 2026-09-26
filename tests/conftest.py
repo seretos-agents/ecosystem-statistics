@@ -236,6 +236,28 @@ def escaped(block: str) -> str:
     return _html.escape(block, quote=False)
 
 
+CHAIN_HEADING = "## Regression chain (gatekeeper)"
+
+
+def chain_block(members: str) -> str:
+    """A `<!-- gatekeeper:chain v1 -->` machine block carrying a comma-separated
+    `members:` line (plan #13). Shared by `test_regression_chains.py` (R2) and
+    `test_collect_regression_chains.py` (R1/R3) so both files' fixtures render the
+    block identically -- the exact shape is the plan's own HTML-escaped example
+    (`&lt;!-- gatekeeper:chain v1\\nmembers: ...\\n--&gt;`), unescaped."""
+    return f"<!-- gatekeeper:chain v1\nmembers: {members}\n-->\n"
+
+
+def chain_table(refs: list[str]) -> str:
+    """A Markdown table whose first cell of each data row is a chain member ref (a
+    bare `#N` or a fully-qualified `owner/repo#N`), with a header and separator row
+    that must never themselves be read as members (plan #13: "Header or separator
+    rows add nothing")."""
+    lines = ["| Ticket | Note |", "|---|---|"]
+    lines.extend(f"| {ref} | note |" for ref in refs)
+    return "\n".join(lines) + "\n"
+
+
 def read_tree(root: Path) -> dict[str, bytes]:
     """All files under `root`, keyed by POSIX-style relative path, for byte-for-byte
     comparison across collector runs (AGENTS.md: reruns must be byte-identical)."""
