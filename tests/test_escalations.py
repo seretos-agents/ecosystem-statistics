@@ -249,6 +249,50 @@ def test_ato_escalated_block_alone_counts_as_explicit_escalation() -> None:
 
 
 # ---------------------------------------------------------------------------
+# Review finding R2: an ato block, with no matching free-text heading/line
+# anywhere in the comment, must resolve a pending event through the real
+# `classify_issue` code path -- not just through the standalone predicates
+# above. `ato_event_block` (conftest) renders none of `## Blocked triage (run)`
+# or `Escalated:`, so these two comments carry the ato block as their *sole*
+# triage/escalation signal.
+# ---------------------------------------------------------------------------
+
+
+def test_classify_issue_resolves_pending_via_ato_triage_answered_block_alone() -> None:
+    comments = (
+        (_ts(D1, 9, 0), adev_event_block("started")),
+        (_ts(D1, 9, 30), adev_event_block("blocked")),
+        (_ts(D1, 9, 40), ato_event_block("triage-answered")),
+    )
+    issue = escalations.IssueHistory(number=201, closed_at=None, comments=comments)
+
+    outcome = escalations.classify_issue(issue, until=D1)
+
+    assert outcome.resolution == escalations.Resolution(day=D1, kind="auto_answered", reason=None)
+
+
+def test_classify_issue_resolves_pending_via_ato_escalated_block_alone() -> None:
+    """A same-day `blocked`->`escalated` fallback would coincidentally land on the same
+    `Resolution` as a real explicit-escalation match (both give `day=<pending day>,
+    reason=<pending reason>`), so this puts the ato block on a *later* day than the
+    pending event: only recognizing the block resolves it there and then, on that
+    later day: the pending-end-of-history fallback (if the block went unrecognized)
+    would instead resolve it on the earlier `failed` day, D1 -- a different
+    `Resolution` that this assertion would catch."""
+    comments = (
+        (_ts(D1, 9, 0), adev_event_block("started")),
+        (_ts(D1, 9, 30), adev_event_block("blocked")),
+        (_ts(D1, 10, 0), adev_event_block("failed")),
+        (_ts(D2, 8, 0), ato_event_block("escalated", reason="failed")),
+    )
+    issue = escalations.IssueHistory(number=202, closed_at=None, comments=comments)
+
+    outcome = escalations.classify_issue(issue, until=D2)
+
+    assert outcome.resolution == escalations.Resolution(day=D2, kind="escalated", reason="failed")
+
+
+# ---------------------------------------------------------------------------
 # Note 1: explicit Escalated: always wins over a triage answer in the same comment
 # ---------------------------------------------------------------------------
 

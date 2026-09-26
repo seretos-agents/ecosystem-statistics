@@ -32,6 +32,7 @@ import httpx
 import pytest
 
 from conftest import SyntheticRepo, adev_event_block, ato_event_block, escaped, fenced, read_tree
+from ecosystem_statistics.collect import _merge_escalations
 
 D1 = date(2024, 3, 4)
 D2 = date(2024, 3, 5)
@@ -293,3 +294,47 @@ def test_escalations_block_in_daily_json(
         "value": 0.0,
         "by_reason": {},
     }
+
+
+# ---------------------------------------------------------------------------
+# Review finding R1: `_merge_escalations` must do a real per-field sum and
+# `by_reason` dict-merge across repos, then recompute `value` -- not
+# last-write-wins. The end-to-end fixture above is deliberately single-repo (per
+# the plan's exact numbers), so it cannot itself distinguish a real sum from a
+# copy of the last block; this direct unit test supplies two blocks whose
+# `by_reason` keys overlap on `blocked` (1+1=2) and each carry a reason the
+# other lacks (`failed` only in the second, `rebase-conflict-decision` only in
+# the first), so a naive `blocks[-1]` implementation would produce different
+# `in_progress`/`escalated`/`auto_answered`/`by_reason`/`value` than the real
+# sum below.
+# ---------------------------------------------------------------------------
+
+
+def test_merge_escalations_sums_across_repos_not_last_write_wins() -> None:
+    repo_a = {
+        "in_progress": 3,
+        "escalated": 1,
+        "auto_answered": 1,
+        "value": 0.3333,
+        "by_reason": {"blocked": 1, "rebase-conflict-decision": 1},
+    }
+    repo_b = {
+        "in_progress": 5,
+        "escalated": 2,
+        "auto_answered": 0,
+        "value": 0.4,
+        "by_reason": {"blocked": 1, "failed": 1},
+    }
+
+    merged = _merge_escalations([repo_a, repo_b])
+
+    assert merged == {
+        "in_progress": 8,
+        "escalated": 3,
+        "auto_answered": 1,
+        "value": 0.375,
+        "by_reason": {"blocked": 2, "rebase-conflict-decision": 1, "failed": 1},
+    }
+    # A naive `blocks[-1]` (last-write-wins) copy would equal repo_b exactly --
+    # confirm the real merge differs from it on every summed field.
+    assert merged != repo_b
