@@ -9,7 +9,7 @@ import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from . import churn, config, escalations, github, gitrepo, output
+from . import churn, config, escalations, github, gitrepo, output, rounds
 
 
 def _daterange(since: date, until: date) -> list[date]:
@@ -70,19 +70,20 @@ def _merge_escalations(blocks: list[dict]) -> dict:
     }
 
 
-def _collect_escalations_for_repo(
+def _fetch_histories(
     repo_cfg: config.RepoConfig,
     *,
     days: list[date],
     client,
-) -> dict[date, dict]:
-    """Every issue's classification-relevant history for one repo, rolled up into a
-    per-day `escalations` breakdown. Fetches comments only for issues created on or
-    before the end of `--until` and not closed before `--since` (otherwise every
-    historical issue's comments are fetched every night), and drops any fetched
-    comment posted after the end of `--until` (otherwise a rerun of the same window
-    could see newer comments and give different bytes) -- history before `--since` is
-    kept, since verdicts use each ticket's full history up to `--until`."""
+) -> list[escalations.IssueHistory]:
+    """Every issue's classification-relevant history for one repo -- shared by both
+    #11's `escalations.daily_breakdown` and #12's `rounds.daily_samples`. Fetches
+    comments only for issues created on or before the end of `--until` and not closed
+    before `--since` (otherwise every historical issue's comments are fetched every
+    night), and drops any fetched comment posted after the end of `--until` (otherwise
+    a rerun of the same window could see newer comments and give different bytes) --
+    history before `--since` is kept, since both #11's verdicts and #12's sessions use
+    each ticket's full history up to `--until`."""
     since, until = days[0], days[-1]
     issues_meta = github.list_issues(client, repo_cfg.owner, repo_cfg.name)
 
@@ -104,7 +105,7 @@ def _collect_escalations_for_repo(
             escalations.IssueHistory(number=number, closed_at=closed_at, comments=comments)
         )
 
-    return escalations.daily_breakdown(histories, days)
+    return histories
 
 
 def _collect_repo(
@@ -115,8 +116,11 @@ def _collect_repo(
     churn_cfg: config.ChurnConfig,
     client,
     token: str | None,
-) -> dict[date, dict]:
-    """branch_churn + main_rework blocks for one repo, for every day in `days`."""
+) -> tuple[dict[date, dict], dict[date, rounds.DaySamples]]:
+    """branch_churn + main_rework + escalations + rounds blocks for one repo, for every
+    day in `days`. Also returns the day's raw `rounds.DaySamples`, so `run_collect` can
+    pool them across repos for `totals["rounds"]` -- median/p90 cannot be recomputed
+    from an already-summarized per-repo block."""
     repo_path = gitrepo.ensure_repo(
         repo_cfg.clone_url, cache_dir, repo_cfg.owner, repo_cfg.name, token=token
     )
@@ -126,7 +130,9 @@ def _collect_repo(
     prs = github.list_merged_prs(
         client, repo_cfg.owner, repo_cfg.name, default_branch, days[0], days[-1]
     )
-    escalations_by_day = _collect_escalations_for_repo(repo_cfg, days=days, client=client)
+    histories = _fetch_histories(repo_cfg, days=days, client=client)
+    escalations_by_day = escalations.daily_breakdown(histories, days)
+    rounds_by_day = rounds.daily_samples(histories, days)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
@@ -185,9 +191,10 @@ def _collect_repo(
                 "value": rework.value,
             },
             "escalations": escalations_by_day[day],
+            "rounds": rounds.summarize([rounds_by_day[day]]),
         }
 
-    return per_day
+    return per_day, rounds_by_day
 
 
 def run_collect(
@@ -201,9 +208,10 @@ def run_collect(
     client = github.make_client(token)
     try:
         per_repo_by_day: dict[date, dict[str, dict]] = {day: {} for day in days}
+        rounds_samples_by_day: dict[date, list[rounds.DaySamples]] = {day: [] for day in days}
         for repo_cfg in repos:
             full_name = f"{repo_cfg.owner}/{repo_cfg.name}"
-            per_day = _collect_repo(
+            per_day, repo_rounds_by_day = _collect_repo(
                 repo_cfg,
                 days=days,
                 cache_dir=cache_dir,
@@ -213,6 +221,7 @@ def run_collect(
             )
             for day, blocks in per_day.items():
                 per_repo_by_day[day][full_name] = blocks
+                rounds_samples_by_day[day].append(repo_rounds_by_day[day])
     finally:
         client.close()
 
@@ -230,6 +239,7 @@ def run_collect(
                     rework_blocks, window_days=churn_cfg.rework_window_days
                 ),
                 "escalations": _merge_escalations(escalation_blocks),
+                "rounds": rounds.summarize(rounds_samples_by_day[day]),
             },
             "per_repo": per_repo,
         }
