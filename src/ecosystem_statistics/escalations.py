@@ -43,10 +43,33 @@ from dataclasses import dataclass
 from datetime import date, datetime, timezone
 
 _BLOCK_RE = re.compile(r"<!--\s*(adev|ato):event\s+v1\b(.*?)-->", re.DOTALL)
-_REBASE_F_RE = re.compile(r"rebase=\d+/\d+\((\d+)f")
+_ROUNDS_RE = re.compile(r"([\w-]+)=(\d+)/(\d+)\((\d+)f,(\d+)i\)")
 
 _TRIAGE_HEADING = "## Blocked triage (run)"
 _ESCALATED_PREFIX = "Escalated:"
+
+
+@dataclass(frozen=True)
+class Gate:
+    """One gate's reading from a `rounds:` line -- plan #12's shared shape, used by
+    both #11's rebase-f lookup and #12's per-gate statistics."""
+
+    used: int
+    soft: int
+    f: int
+    i: int
+
+
+def parse_rounds(line: str) -> dict[str, Gate]:
+    """Parse a `rounds:` line (`gate=U/S(Nf,Mi) ...`, one token per gate) into
+    `{gate_name: Gate(used, soft, f, i)}`. Both emitters (dev and prose) always render
+    every one of their five gates in this exact `(Nf,Ni)` form (plan #12, "Premises
+    verified"), so this single regex replaces #11's narrower `_REBASE_F_RE` without
+    changing what it could already parse."""
+    return {
+        name: Gate(used=int(used), soft=int(soft), f=int(f), i=int(i))
+        for name, used, soft, f, i in _ROUNDS_RE.findall(line)
+    }
 
 
 @dataclass(frozen=True)
@@ -98,11 +121,11 @@ def extract_blocks(body: str) -> list[dict]:
 
 
 def _rebase_f(block: dict) -> int | None:
-    rounds = block.get("rounds")
-    if not rounds:
+    rounds_line = block.get("rounds")
+    if not rounds_line:
         return None
-    match = _REBASE_F_RE.search(rounds)
-    return int(match.group(1)) if match else None
+    gate = parse_rounds(rounds_line).get("rebase")
+    return gate.f if gate is not None else None
 
 
 def has_explicit_escalation(body: str) -> bool:
