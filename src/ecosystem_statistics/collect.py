@@ -9,7 +9,7 @@ import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
-from . import churn, config, escalations, github, gitrepo, output, rounds
+from . import churn, config, escalations, github, gitrepo, output, regression_chains, rounds
 
 
 def _daterange(since: date, until: date) -> list[date]:
@@ -70,6 +70,24 @@ def _merge_escalations(blocks: list[dict]) -> dict:
     }
 
 
+def _merge_regression_chains(blocks: list[dict]) -> dict:
+    """Sum `active`/`chain_active`/`detected` and concatenate+sort `chains` across
+    repos, then recompute `value` from the summed counts -- never last-write-wins (same
+    rationale as `_merge_escalations`)."""
+    active = sum(b["active"] for b in blocks)
+    chain_active = sum(b["chain_active"] for b in blocks)
+    detected = sum(b["detected"] for b in blocks)
+    chains = sorted((c for b in blocks for c in b["chains"]), key=lambda c: c["ticket"])
+    value = None if active == 0 else _round4(chain_active / active)
+    return {
+        "active": active,
+        "chain_active": chain_active,
+        "value": value,
+        "detected": detected,
+        "chains": chains,
+    }
+
+
 def _fetch_histories(
     repo_cfg: config.RepoConfig,
     *,
@@ -88,7 +106,7 @@ def _fetch_histories(
     issues_meta = github.list_issues(client, repo_cfg.owner, repo_cfg.name)
 
     histories: list[escalations.IssueHistory] = []
-    for number, created_at, closed_at in issues_meta:
+    for number, created_at, closed_at, labels in issues_meta:
         if _parse_day(created_at) > until:
             continue
         if closed_at is not None and _parse_day(closed_at) < since:
@@ -102,7 +120,9 @@ def _fetch_histories(
             if _parse_day(comment_created_at) <= until
         )
         histories.append(
-            escalations.IssueHistory(number=number, closed_at=closed_at, comments=comments)
+            escalations.IssueHistory(
+                number=number, closed_at=closed_at, comments=comments, labels=labels
+            )
         )
 
     return histories
@@ -133,6 +153,7 @@ def _collect_repo(
     histories = _fetch_histories(repo_cfg, days=days, client=client)
     escalations_by_day = escalations.daily_breakdown(histories, days)
     rounds_by_day = rounds.daily_samples(histories, days)
+    regression_chains_by_day = regression_chains.daily_breakdown(histories, days, full_name)
     per_pr_by_day: dict[date, list[tuple[int, str, churn.BranchChurnResult]]] = {
         day: [] for day in days
     }
@@ -192,6 +213,7 @@ def _collect_repo(
             },
             "escalations": escalations_by_day[day],
             "rounds": rounds.summarize([rounds_by_day[day]]),
+            "regression_chains": regression_chains_by_day[day],
         }
 
     return per_day, rounds_by_day
@@ -230,6 +252,7 @@ def run_collect(
         branch_blocks = [entry["branch_churn"] for entry in per_repo.values()]
         rework_blocks = [entry["main_rework"] for entry in per_repo.values()]
         escalation_blocks = [entry["escalations"] for entry in per_repo.values()]
+        regression_chain_blocks = [entry["regression_chains"] for entry in per_repo.values()]
         payload = {
             "schema_version": 1,
             "date": day.isoformat(),
@@ -240,6 +263,7 @@ def run_collect(
                 ),
                 "escalations": _merge_escalations(escalation_blocks),
                 "rounds": rounds.summarize(rounds_samples_by_day[day]),
+                "regression_chains": _merge_regression_chains(regression_chain_blocks),
             },
             "per_repo": per_repo,
         }

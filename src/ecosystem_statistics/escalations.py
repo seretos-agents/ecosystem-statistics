@@ -75,11 +75,16 @@ def parse_rounds(line: str) -> dict[str, Gate]:
 @dataclass(frozen=True)
 class IssueHistory:
     """One ticket's full comment history, as fetched via `github.list_issue_comments`
-    (already filtered by `collect.py` to drop comments after the end of `--until`)."""
+    (already filtered by `collect.py` to drop comments after the end of `--until`).
+
+    `labels` (plan #13) is the ticket's *current* label set, not history -- GitHub's
+    `/issues` payload carries no label-change timeline, so there is nothing to
+    snapshot per day."""
 
     number: int
     closed_at: str | None
     comments: tuple[tuple[str, str], ...]
+    labels: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)

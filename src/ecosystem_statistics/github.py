@@ -182,17 +182,20 @@ def list_issues(
     *,
     sleep=_time.sleep,
     now=_time.time,
-) -> list[tuple[int, str, str | None]]:
-    """All issues in `owner/repo` (`state=all`), as `(number, created_at, closed_at)`.
-    PR items (GitHub's `/issues` endpoint returns both) are skipped -- classification
-    never applies to a PR."""
+) -> list[tuple[int, str, str | None, tuple[str, ...]]]:
+    """All issues in `owner/repo` (`state=all`), as
+    `(number, created_at, closed_at, labels)`. PR items (GitHub's `/issues` endpoint
+    returns both) are skipped -- classification never applies to a PR. `labels` (plan
+    #13) is the issue's current, sorted label-name tuple; `or []` tolerates mocked
+    `/issues` payloads that predate this field and carry no `labels` key at all."""
     url = f"https://api.github.com/repos/{owner}/{repo}/issues"
     params = {"state": "all", "per_page": "100"}
-    results: list[tuple[int, str, str | None]] = []
+    results: list[tuple[int, str, str | None, tuple[str, ...]]] = []
     for item in _paginate(client, url, params=params, sleep=sleep, now=now):
         if "pull_request" in item:
             continue
-        results.append((item["number"], item["created_at"], item.get("closed_at")))
+        labels = tuple(sorted(label["name"] for label in item.get("labels") or []))
+        results.append((item["number"], item["created_at"], item.get("closed_at"), labels))
     return results
 
 
