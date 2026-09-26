@@ -1,0 +1,22 @@
+# Tuning for the two churn metrics (see plan #9 and ecosystem_statistics.churn).
+#
+# rework_window_days: the backward-looking window N used by main_rework — a removed line
+# on main is "young" (counts as rework) only if it landed within the last N days.
+rework_window_days: 21
+
+# exclude_paths: fnmatch patterns (matched against the POSIX-style repo-relative path AND
+# the basename) skipped in both branch_churn and main_rework numstat/diff sums. Lockfiles
+# churn heavily from routine dependency bumps, not from human rework.
+exclude_paths:
+  - "package-lock.json"
+  - "yarn.lock"
+  - "pnpm-lock.yaml"
+  - "poetry.lock"
+  - "uv.lock"
+  - "*.lock"
+
+# exclude_commits: SHAs (or unique prefixes of at least 7 hex chars) to drop from
+# main_rework entirely -- e.g. a rebase/conflict-resolution commit that isn't real rework.
+# Only main_rework consults this list; branch_churn already hard-excludes merge commits via
+# --no-merges, which covers its own equivalent case.
+exclude_commits: []

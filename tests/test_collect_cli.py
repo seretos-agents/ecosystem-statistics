@@ -104,8 +104,40 @@ def test_rerun_is_byte_identical(
     assert snapshot_a == snapshot_b
     assert "daily/2024-01-01.json" in snapshot_a
     assert "index.json" in snapshot_a
-    assert snapshot_a["daily/2024-01-01.json"].endswith(b"\n")
-    assert b"generated_at" not in snapshot_a["daily/2024-01-01.json"]
+
+    daily_bytes = snapshot_a["daily/2024-01-01.json"]
+    assert daily_bytes.endswith(b"\n")
+    # `endswith(b"\n")` alone would also pass for CRLF line endings -- rule those out
+    # directly rather than relying on a suffix check that CRLF satisfies too.
+    assert b"\r" not in daily_bytes
+
+    day1_payload = json.loads(daily_bytes)
+    # Assert the full expected top-level key set (not just the absence of the literal
+    # `generated_at` key) so any wall-clock or other stray field is caught, whatever it
+    # is named.
+    assert set(day1_payload.keys()) == {"schema_version", "date", "totals", "per_repo"}
+    assert day1_payload["schema_version"] == 1
+    assert day1_payload["date"] == "2024-01-01"
+    assert set(day1_payload["totals"].keys()) == {"branch_churn", "main_rework"}
+    # No merged PRs (mocked to return none) -> branch_churn totals are all zero/null.
+    assert day1_payload["totals"]["branch_churn"] == {
+        "gross_added": 0,
+        "net_added": 0,
+        "prs": 0,
+        "value": None,
+    }
+    # day1's commit adds 5 lines to a.py within the 21-day window and removes nothing.
+    assert day1_payload["totals"]["main_rework"] == {
+        "young_removed": 0,
+        "added_to_main": 5,
+        "window_days": 21,
+        "value": 0.0,
+    }
+    assert set(day1_payload["per_repo"].keys()) == {"acme/demo"}
+    repo_block = day1_payload["per_repo"]["acme/demo"]
+    assert repo_block["branch_churn"]["prs"] == 0
+    assert repo_block["branch_churn"]["per_pr"] == []
+    assert repo_block["main_rework"] == day1_payload["totals"]["main_rework"]
 
     # Rerun into out_a with the same cache: must reproduce the exact same bytes.
     assert main(argv_day1) == 0
@@ -128,3 +160,53 @@ def test_rerun_is_byte_identical(
     assert (
         out_a / "daily" / "2024-01-01.json"
     ).read_bytes() == snapshot_a["daily/2024-01-01.json"]
+
+
+def test_index_is_sorted_regardless_of_collection_order(
+    tmp_path: Path, synthetic_repo: SyntheticRepo, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """index.json must end up sorted even when a later day is collected before an
+    earlier one -- collecting day1-then-day2 in chronological order (as the
+    byte-identical-rerun test above does) would also pass an append-without-sort
+    implementation (test-critic F6)."""
+    origin = synthetic_repo
+    origin.commit_file(
+        "a.py",
+        "a\n",
+        "init",
+        when=datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc),
+    )
+
+    workdir = tmp_path / "workspace"
+    _write_config(workdir / "config", origin.clone_url())
+    monkeypatch.chdir(workdir)
+
+    from ecosystem_statistics.__main__ import main
+    import ecosystem_statistics.github as github
+
+    monkeypatch.setattr(github, "make_client", _no_prs_client)
+
+    out_dir = workdir / "out"
+    cache_dir = workdir / "cache"
+
+    assert main(
+        [
+            "collect",
+            "--since", "2024-01-05",
+            "--until", "2024-01-05",
+            "--out", str(out_dir),
+            "--cache-dir", str(cache_dir),
+        ]
+    ) == 0
+    assert main(
+        [
+            "collect",
+            "--since", "2024-01-02",
+            "--until", "2024-01-02",
+            "--out", str(out_dir),
+            "--cache-dir", str(cache_dir),
+        ]
+    ) == 0
+
+    index = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))
+    assert index["days"] == ["2024-01-02", "2024-01-05"]
