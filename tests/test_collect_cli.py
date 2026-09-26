@@ -210,3 +210,53 @@ def test_index_is_sorted_regardless_of_collection_order(
 
     index = json.loads((out_dir / "index.json").read_text(encoding="utf-8"))
     assert index["days"] == ["2024-01-02", "2024-01-05"]
+
+
+def test_pr_list_request_carries_real_default_branch(
+    tmp_path: Path, synthetic_repo: SyntheticRepo, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """The PR-listing request must carry `base=<repo's actual default branch>` (plan #9:
+    "`GET /repos/{o}/{r}/pulls?state=closed&base=<default_branch>...`"). Proven with a repo
+    whose default branch is `trunk`, not `main` -- a `list_merged_prs` call that hardcoded
+    `base="main"` (the likeliest wrong constant) would pass a same-named-branch test but
+    fail this one.
+    """
+    origin = synthetic_repo
+    origin.commit_file(
+        "a.py", "a\n", "init", when=datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    )
+    origin.rename_branch("main", "trunk")
+
+    workdir = tmp_path / "workspace"
+    _write_config(workdir / "config", origin.clone_url())
+    monkeypatch.chdir(workdir)
+
+    from ecosystem_statistics.__main__ import main
+    import ecosystem_statistics.github as github
+
+    seen_bases: list[str | None] = []
+
+    def make_capturing_client(token: str | None = None) -> httpx.Client:
+        def handler(request: httpx.Request) -> httpx.Response:
+            assert "/pulls" in request.url.path
+            seen_bases.append(request.url.params.get("base"))
+            return httpx.Response(200, json=[])
+
+        return httpx.Client(transport=httpx.MockTransport(handler))
+
+    monkeypatch.setattr(github, "make_client", make_capturing_client)
+
+    out_dir = workdir / "out"
+    cache_dir = workdir / "cache"
+
+    assert main(
+        [
+            "collect",
+            "--since", "2024-01-01",
+            "--until", "2024-01-01",
+            "--out", str(out_dir),
+            "--cache-dir", str(cache_dir),
+        ]
+    ) == 0
+
+    assert seen_bases == ["trunk"]

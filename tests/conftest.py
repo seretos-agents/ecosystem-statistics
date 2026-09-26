@@ -80,6 +80,11 @@ class SyntheticRepo:
     def mv(self, src: str, dst: str) -> None:
         self._run("mv", src, dst)
 
+    def rename_branch(self, old: str, new: str) -> None:
+        """Rename a branch (e.g. the initial `main`) so a test can prove the collector
+        reads the repo's *real* default branch instead of assuming a hardcoded name."""
+        self._run("branch", "-m", old, new)
+
     def branch(self, name: str, start_point: str | None = None) -> None:
         args = ["checkout", "-q", "-b", name]
         if start_point:

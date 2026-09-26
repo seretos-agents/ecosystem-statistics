@@ -100,3 +100,65 @@ def test_negative_offset_evening_commit_buckets_into_next_utc_day(
 
     result_utc_date = main_rework(repo.path, date(2024, 1, 2), window_days=21)
     assert result_utc_date.young_removed == 1
+
+
+def test_no_ff_merge_commit_counts_toward_added_to_main(synthetic_repo: SyntheticRepo) -> None:
+    """A `--no-ff` merge commit (`Merge branch '...'`) is itself a first-parent commit; the
+    lines it brings in from the merged branch must count toward `added_to_main` just like a
+    direct commit's lines would -- `added_to_main` sums *every* non-excluded first-parent
+    commit in the window, merges included, not only direct commits (plan #9)."""
+    repo = synthetic_repo
+    seed_day = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    merge_day = datetime(2024, 2, 15, 12, 0, 0, tzinfo=timezone.utc)
+
+    # Seeded well outside the 21-day window ending at merge_day, so its own added line
+    # does not contaminate the count this test is isolating.
+    repo.commit_file("main.py", "m\n", "seed: unrelated commit on main", when=seed_day)
+    repo.branch("feature", start_point="main")
+
+    five_lines = "\n".join(f"f{i}" for i in range(5)) + "\n"
+    repo.commit_file("feature.py", five_lines, "feature: add 5 lines", when=seed_day)
+
+    repo.checkout("main")
+    repo.merge("feature", "Merge branch 'feature'", when=merge_day)
+
+    from ecosystem_statistics.churn import main_rework
+
+    result = main_rework(repo.path, date(2024, 2, 15), window_days=21)
+    assert result.young_removed == 0
+    assert result.added_to_main == 5
+    assert result.value == 0.0
+
+
+def test_exclude_paths_ignored_by_main_rework(synthetic_repo: SyntheticRepo) -> None:
+    """`exclude_paths` (config/churn.yml's lockfile globs) must drop a path from both
+    `main_rework` terms: an excluded path's added lines don't count toward
+    `added_to_main`, and an excluded path's removed lines don't count as `young_removed`
+    -- even though `main_rework` was never exercised with `exclude_paths` set before this
+    test (only the CLI's end-to-end test touched it indirectly)."""
+    repo = synthetic_repo
+    day0 = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    day10 = datetime(2024, 1, 11, 12, 0, 0, tzinfo=timezone.utc)
+
+    ten_lines = "\n".join(f"line{i}" for i in range(10)) + "\n"
+    repo.commit_file("main.py", ten_lines, "day0: add 10 lines to main.py", when=day0)
+    hundred_lock_lines = "\n".join(f"dep{i}" for i in range(100)) + "\n"
+    repo.commit_file("package-lock.json", hundred_lock_lines, "day0: add lockfile", when=day0)
+
+    nine_lines = "\n".join(f"line{i}" for i in range(9)) + "\n"
+    repo.commit_file("main.py", nine_lines, "day10: remove 1 line from main.py", when=day10)
+    fifty_lock_lines = "\n".join(f"dep{i}" for i in range(50)) + "\n"
+    repo.commit_file(
+        "package-lock.json", fifty_lock_lines, "day10: remove 50 lock lines", when=day10
+    )
+
+    from ecosystem_statistics.churn import main_rework
+
+    result = main_rework(
+        repo.path, date(2024, 1, 11), window_days=21, exclude_paths=["package-lock.json"]
+    )
+    # Only main.py's 1 removed / 10 added lines count; the lockfile's 100 added / 50
+    # removed lines must be excluded from both terms.
+    assert result.young_removed == 1
+    assert result.added_to_main == 10
+    assert result.value == 0.1

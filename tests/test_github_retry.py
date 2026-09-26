@@ -105,3 +105,77 @@ def test_persistent_rate_limit_raises_rate_limit_exhausted() -> None:
         )
     assert len(calls) == 3
     assert waits == [1, 1, 1]
+
+
+def test_list_merged_prs_stops_pagination_when_page_goes_stale() -> None:
+    """`list_merged_prs` itself (not just the lower-level `request()` retry helper) must
+    page via `Link: rel="next"` and stop as soon as a page contains a PR whose
+    `updated_at` is before `since` -- and must never fetch a page beyond that one, since
+    pages are sorted newest-updated-first and everything after is guaranteed stale."""
+    from datetime import date
+
+    from ecosystem_statistics.github import list_merged_prs
+
+    since = date(2024, 1, 1)
+    until = date(2024, 1, 31)
+
+    page1_items = [
+        {
+            "number": 5,
+            "updated_at": "2024-01-20T00:00:00Z",
+            "merged_at": "2024-01-15T00:00:00Z",
+            "merge_commit_sha": "a" * 40,
+        }
+    ]
+    # The first item here is already older than `since` -- pagination must stop right
+    # here, before ever requesting a third page.
+    page2_items = [
+        {
+            "number": 1,
+            "updated_at": "2023-12-01T00:00:00Z",
+            "merged_at": "2023-12-01T00:00:00Z",
+            "merge_commit_sha": "b" * 40,
+        }
+    ]
+    # Only reachable if pagination incorrectly continues past the stale page above.
+    page3_items = [
+        {
+            "number": 99,
+            "updated_at": "2023-11-01T00:00:00Z",
+            "merged_at": "2023-11-01T00:00:00Z",
+            "merge_commit_sha": "c" * 40,
+        }
+    ]
+
+    next_page2 = "https://api.github.com/repos/acme/demo/pulls?page=2"
+    next_page3 = "https://api.github.com/repos/acme/demo/pulls?page=3"
+    calls: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        calls.append(request)
+        if len(calls) == 1:
+            assert request.url.params.get("base") == "main"
+            return httpx.Response(
+                200, json=page1_items, headers={"Link": f'<{next_page2}>; rel="next"'}
+            )
+        if len(calls) == 2:
+            return httpx.Response(
+                200, json=page2_items, headers={"Link": f'<{next_page3}>; rel="next"'}
+            )
+        return httpx.Response(200, json=page3_items)
+
+    client = httpx.Client(transport=httpx.MockTransport(handler))
+
+    results = list_merged_prs(
+        client,
+        "acme",
+        "demo",
+        "main",
+        since,
+        until,
+        sleep=lambda _seconds: None,
+        now=lambda: 1_700_000_000.0,
+    )
+
+    assert len(calls) == 2  # page 3 must never be requested
+    assert [pr.number for pr in results] == [5]
