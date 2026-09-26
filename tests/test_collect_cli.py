@@ -123,7 +123,7 @@ def test_rerun_is_byte_identical(
     assert day1_payload["schema_version"] == 1
     assert day1_payload["date"] == "2024-01-01"
     assert set(day1_payload["totals"].keys()) == {
-        "branch_churn", "main_rework", "escalations", "rounds",
+        "branch_churn", "main_rework", "escalations", "rounds", "regression_chains",
     }
     # No merged PRs (mocked to return none) -> branch_churn totals are all zero/null.
     assert day1_payload["totals"]["branch_churn"] == {
