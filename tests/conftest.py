@@ -170,21 +170,34 @@ def make_fixup_branch(repo: SyntheticRepo) -> None:
     repo.commit_file("package-lock.json", lockfile, "add lockfile (excluded path)")
 
 
-def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)") -> str:
+def adev_event_block(event: str, *, rebase: str = "0/3(0f,0i)", rounds: str | None = None) -> str:
     """A `<!-- adev:event v1 -->` machine block, rendered exactly as
     `process-developer`'s `event_block.py` prints it (plan #11's grounding: the lower
     plugin's SKILL.md, "What the renderer prints ..."), with a full `rounds:` line so
     `escalations.py`'s cumulative rebase-`f` reader always has a value. Shared by
     `test_escalations.py` (R2) and `test_collect_escalations.py` (R1) so the two test
-    files' fixtures render the block identically."""
+    files' fixtures render the block identically.
+
+    `rounds` (plan #12) overrides the *whole* rounds line -- every gate, not just
+    `rebase` -- for a caller that needs a specific dev or prose rounds snapshot (e.g.
+    `test_collect_rounds.py`'s fixture tickets). Every other gate is hardcoded; only
+    `rebase` has its own shorthand (`rebase=`), and the default output is unchanged
+    when neither is passed."""
+    rounds_line = (
+        rounds
+        if rounds is not None
+        else (
+            "plan-critic=0/3(0f,0i) test-critic=0/3(0f,0i) review=0/3(0f,0i) "
+            f"ci=0/3(0f,0i) rebase={rebase}"
+        )
+    )
     return (
         "<!-- adev:event v1\n"
         f"event: {event}\n"
         "package: 11\n"
         "attempt: 1\n"
         "generation: 1/1\n"
-        "rounds: plan-critic=0/3(0f,0i) test-critic=0/3(0f,0i) review=0/3(0f,0i) "
-        f"ci=0/3(0f,0i) rebase={rebase}\n"
+        f"rounds: {rounds_line}\n"
         "pr:\n"
         "ci_run:\n"
         "-->\n"
