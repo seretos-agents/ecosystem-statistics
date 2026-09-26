@@ -115,6 +115,40 @@ def synthetic_repo(tmp_path: Path) -> SyntheticRepo:
     return SyntheticRepo(tmp_path / "origin")
 
 
+@pytest.fixture
+def bare_origin(tmp_path: Path) -> Path:
+    """A bare git remote shaped like a fresh GitHub repo: a `main` branch with one
+    commit, no `data` branch yet -- so `publish()` tests (plan #10) can exercise both
+    "data is missing" (orphan-branch creation) and, after a first `publish()` call,
+    "data already exists", entirely offline. `SyntheticRepo` is non-bare and cannot
+    accept a push to its own checked-out branch, so this fixture pushes into a
+    separate `--bare` repo from a throwaway `SyntheticRepo` clone instead.
+    """
+    bare_path = tmp_path / "origin.git"
+    subprocess.run(
+        ["git", "init", "--quiet", "--bare", "-b", "main", str(bare_path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+
+    seed = SyntheticRepo(tmp_path / "seed")
+    seed.commit_file("README.md", "seed\n", "seed: initial commit on main")
+    subprocess.run(
+        ["git", "-C", str(seed.path), "remote", "add", "origin", str(bare_path)],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    subprocess.run(
+        ["git", "-C", str(seed.path), "push", "-q", "origin", "main"],
+        check=True,
+        capture_output=True,
+        text=True,
+    )
+    return bare_path
+
+
 def make_fixup_branch(repo: SyntheticRepo) -> None:
     """Shared branch shape for R1/R6: c1 adds 10 lines, c2 rewrites 4 of them, c3 adds 2
     more, plus an excluded-path lockfile commit. Used by both the plain branch_churn

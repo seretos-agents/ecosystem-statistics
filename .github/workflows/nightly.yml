@@ -1,0 +1,161 @@
+name: nightly
+
+# Scheduled collection + publish to `data` (plan #10). Also `workflow_dispatch`-able with
+# an explicit `since`/`until` window for a backfill run over past days.
+#
+# `pull_request` is also a trigger (ticket #10 follow-up: "promised-CI" requires that
+# every job a PR adds to a workflow has actually run, successfully, at the PR's head
+# commit -- a workflow that only fires on `schedule`/`workflow_dispatch` never gets that
+# proof). On `pull_request` the real collect-and-push step is skipped (it needs
+# `ECOSYSTEM_TOKEN` scoped to org-wide reads and a real writable `data` branch, neither of
+# which should fire on every PR); instead a dry-run step exercises `publish()` for real
+# against a scratch local bare repo the step sets up itself (shaped like
+# `tests/conftest.py`'s `bare_origin` fixture) -- proving checkout, dependency install and
+# the workflow's own code actually run, not just a whole-job skip reported as green.
+on:
+  schedule:
+    - cron: "17 3 * * *"
+  workflow_dispatch:
+    inputs:
+      since:
+        description: "UTC start date (YYYY-MM-DD). Requires 'until' too; omit both for last night's UTC day."
+        required: false
+        type: string
+      until:
+        description: "UTC end date (YYYY-MM-DD). Requires 'since' too."
+        required: false
+        type: string
+  pull_request:
+
+concurrency:
+  # PR runs get their own per-PR group (and cancel superseded runs on a new push) so a
+  # PR's dry-run check never queues behind, or blocks, a real scheduled/dispatch run
+  # sharing the `nightly-data` group.
+  group: ${{ github.event_name == 'pull_request' && format('nightly-pr-{0}', github.event.pull_request.number) || 'nightly-data' }}
+  # `false` queues at most one pending run behind the currently running one per group --
+  # it does not serialise an unbounded backlog. A burst of several manual backfill
+  # dispatches fired in quick succession will cancel all but the latest queued one, so
+  # send backfill dispatches one at a time rather than batching them.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions: {}
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    # GitHub Actions permissions are granted for the whole job, not per step: this
+    # `contents: write` grant is available throughout the job, including the collector
+    # step below (which reads the org via the unrelated `ECOSYSTEM_TOKEN` secret, not
+    # this token) -- not just the final `git push`. It is still the narrowest grant
+    # available for a job that must push: only splitting collection and the push into
+    # two separate jobs would narrow write access to the push step alone. Either way,
+    # this job only ever pushes to `refs/heads/data` -- `main` is PR-only and untouched.
+    # The `pull_request` dry-run step never uses this token -- it only ever pushes to a
+    # scratch local bare repo the step creates itself.
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install package
+        run: python -m pip install -e .
+
+      - name: Collect + publish
+        if: github.event_name != 'pull_request'
+        env:
+          ECOSYSTEM_TOKEN: ${{ secrets.ECOSYSTEM_TOKEN }}
+          SINCE: ${{ inputs.since }}
+          UNTIL: ${{ inputs.until }}
+        run: |
+          set -euo pipefail
+          args=()
+          if [ -n "${SINCE:-}" ]; then args+=(--since "$SINCE"); fi
+          if [ -n "${UNTIL:-}" ]; then args+=(--until "$UNTIL"); fi
+          python -m ecosystem_statistics publish --worktree "$RUNNER_TEMP/data" "${args[@]}"
+
+      - name: Dry run publish() against a scratch local repo (pull_request proof)
+        if: github.event_name == 'pull_request'
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import subprocess
+          import tempfile
+          from pathlib import Path
+
+          from ecosystem_statistics import output, publish
+
+          def run(cwd, *args):
+              subprocess.run(
+                  ["git", "-C", str(cwd), *args],
+                  check=True,
+                  capture_output=True,
+                  text=True,
+              )
+
+          with tempfile.TemporaryDirectory() as tmp_str:
+              tmp = Path(tmp_str)
+
+              # A scratch bare remote shaped like a fresh repo: a `main` branch, no
+              # `data` branch yet -- mirrors `tests/conftest.py`'s `bare_origin` fixture,
+              # entirely local so this step needs no token and never touches the real
+              # GitHub remote.
+              bare = tmp / "origin.git"
+              subprocess.run(
+                  ["git", "init", "--quiet", "--bare", "-b", "main", str(bare)],
+                  check=True, capture_output=True, text=True,
+              )
+
+              seed = tmp / "seed"
+              subprocess.run(
+                  ["git", "init", "--quiet", "-b", "main", str(seed)],
+                  check=True, capture_output=True, text=True,
+              )
+              (seed / "README.md").write_text("seed\n")
+              run(seed, "add", "README.md")
+              run(
+                  seed,
+                  "-c", "user.name=ci", "-c", "user.email=ci@example.com",
+                  "commit", "-m", "seed: initial commit on main",
+              )
+              run(seed, "remote", "add", "origin", str(bare))
+              run(seed, "push", "-q", "origin", "main")
+
+              repo_dir = tmp / "checkout"
+              subprocess.run(
+                  ["git", "init", "--quiet", "-b", "main", str(repo_dir)],
+                  check=True, capture_output=True, text=True,
+              )
+
+              def collect(out_dir: Path) -> None:
+                  # A trivial payload written through the real `output` writers -- this
+                  # is not the real collector (no ECOSYSTEM_TOKEN, no GitHub API call),
+                  # it only proves `publish()`'s own orphan-branch/commit/push logic
+                  # runs correctly end to end on this runner.
+                  output.write_daily(
+                      out_dir,
+                      "2024-01-01",
+                      {"schema_version": 1, "date": "2024-01-01", "totals": {}, "per_repo": {}},
+                  )
+                  output.rebuild_index(out_dir)
+
+              result = publish.publish(
+                  repo_dir,
+                  remote=str(bare),
+                  branch="data",
+                  worktree_dir=tmp / "data-worktree",
+                  message="ci: pull_request dry run (scratch repo, never pushed to real origin)",
+                  collect=collect,
+              )
+
+              assert result.created_branch is True, result
+              assert result.committed is True, result
+              assert result.pushed is True, result
+              print("publish() dry run against a scratch local repo succeeded:", result)
+          PY
