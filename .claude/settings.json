@@ -1,0 +1,8 @@
+{
+  "enabledPlugins": {
+    "agent-worktree@modular-software-factory": true,
+    "agent-autonomous-developer@modular-software-factory": true,
+    "agent-project-issues@modular-software-factory": true,
+    "agent-ticket-orchestrator@modular-software-factory": true
+  }
+}

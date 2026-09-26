@@ -1,0 +1,29 @@
+# Repos the nightly collector scans. One entry per repo; the collector reads issues,
+# issue comments and pull requests for each of these via the GitHub REST API.
+#
+# Scope: seretos-agents/* only, for now (20 repos, the Modular Software Factory
+# plugins/libs on Projects-v2 board `seretos-agents` #1 — excluding this repo itself).
+# Widening to the `Seretos/*` org (a *different* owner, its own board `Seretos` #2) or to
+# `seretos-games/*` is a config change here, not a code change.
+owner: seretos-agents
+repos:
+  - agent-chrome-wrapper
+  - agent-autonomous-developer
+  - agent-vdesktop
+  - agent-project-issues
+  - agent-worktree
+  - agent-unity-wrapper
+  - lib-python-projects
+  - lib-python-worktree
+  - lib-python-vdesktop
+  - lib-python-config
+  - agent-serena-wrapper
+  - lib-python-comfy
+  - agent-comfy
+  - agent-blender-wrapper
+  - agent-meshy-wrapper
+  - agent-line-feed-guard
+  - agent-ticket-orchestrator
+  - lib-python-harness
+  - agent-harness
+  - agent-autonomous-prompt-engineer
