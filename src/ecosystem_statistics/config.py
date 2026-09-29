@@ -15,7 +15,7 @@ import yaml
 
 @dataclass(frozen=True)
 class RepoConfig:
-    """One repo to collect. `clone_url` defaults to the public GitHub URL for
+    """One repo to collect. `owner` is the entry's own owner or the file's default. `clone_url` defaults to the public GitHub URL for
     `owner/name` but can be overridden per-entry (used by tests to point at a local
     `file://` clone instead of the network)."""
 
@@ -37,17 +37,20 @@ def _default_clone_url(owner: str, name: str) -> str:
 
 def load_repos(path: Path) -> list[RepoConfig]:
     """Parse `repos.yml`. Each entry under `repos:` is either a plain repo name string
-    (using the default clone URL) or a mapping with `name` and an optional `clone_url`
-    override."""
+    (using the top-level `owner` and the default clone URL) or a mapping with `name` and
+    optional `owner` (overrides the top-level default) and `clone_url` overrides. The
+    default clone URL is derived from the entry's effective owner."""
     data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
-    owner = data["owner"]
+    default_owner = data["owner"]
     repos: list[RepoConfig] = []
     for entry in data.get("repos", []):
         if isinstance(entry, str):
             name = entry
+            owner = default_owner
             clone_url = None
         else:
             name = entry["name"]
+            owner = entry.get("owner", default_owner)
             clone_url = entry.get("clone_url")
         repos.append(
             RepoConfig(
