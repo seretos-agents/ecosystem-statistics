@@ -43,9 +43,11 @@ the worktree and branch and dispatches the work package. It is never done by han
 - **Tokens:** `ECOSYSTEM_TOKEN` (classic PAT, `repo`+`project` scope) reads across the org — a
   fine-grained PAT cannot see Projects. The nightly workflow's push to `data` uses the run's own
   `GITHUB_TOKEN` with `permissions: contents: write`, scoped to this repo only.
-- **Repo scope lives in `config/repos.yml`, not in code.** It currently covers only
-  `seretos-agents/*`. Adding a repo (e.g. later widening to `Seretos/*`) is a config change, not a
-  code change.
+- **Repo scope lives in `config/repos.yml`, not in code.** It currently covers
+  `seretos-agents/*` (the top-level default `owner:`) plus five `seretos-games/*` repos
+  (`unity-fps-controls`, `unity-interaction`, `unity-avatar`, `unity-menu`, `basic-fps`), which
+  carry a per-entry `owner: seretos-games`. Adding a repo or an owner (e.g. later `Seretos/*`) is
+  a config change, not a code change.
 - **The pipeline's own traces are the data source — see the parser ticket for the exact formats.**
   In short: `adev:event v1` HTML-comment blocks on tickets carry critic/review/CI round counts (two
   gate vocabularies: the developer lane and the prose lane); gatekeeper comments are headed

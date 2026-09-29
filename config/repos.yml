@@ -1,16 +1,23 @@
 # Repos the nightly collector scans. One entry per repo; the collector reads issues,
 # issue comments and pull requests for each of these via the GitHub REST API.
 #
-# Scope: seretos-agents/* only, for now (20 repos, the Modular Software Factory
-# plugins/libs on Projects-v2 board `seretos-agents` #1 — excluding this repo itself).
-# Widening to the `Seretos/*` org (a *different* owner, its own board `Seretos` #2) or to
-# `seretos-games/*` is a config change here, not a code change.
+# Scope: two owners.
+#   - seretos-agents/* (the top-level `owner:` default below) - 20 repos, the Modular
+#     Software Factory plugins/libs on Projects-v2 board `seretos-agents` #1, excluding this
+#     repo itself.
+#   - seretos-games/* - five repos (unity-fps-controls, unity-interaction, unity-avatar,
+#     unity-menu, basic-fps) via a per-entry `owner:`. agent-gamejam is deliberately excluded.
+# Widening to the `Seretos/*` org (its own board `Seretos` #2) is a config change here, not a
+# code change.
 #
-# Each entry under `repos:` is normally just the repo name (its clone URL is derived as
-# https://github.com/<owner>/<name>.git). An entry may instead be a mapping with `name`
-# and an explicit `clone_url` override, e.g.:
+# Each entry under `repos:` is normally just the repo name (owner = the top-level `owner`,
+# clone URL derived as https://github.com/<owner>/<name>.git). An entry may instead be a
+# mapping with `name` and optionally `owner` (overrides the top-level owner) and/or an
+# explicit `clone_url` override, e.g.:
 #   - name: some-repo
-#     clone_url: https://github.com/some-other-owner/some-repo.git
+#     owner: some-other-owner
+#   - name: other-repo
+#     clone_url: https://github.com/some-other-owner/other-repo.git
 owner: seretos-agents
 repos:
   - agent-chrome-wrapper
@@ -33,3 +40,13 @@ repos:
   - lib-python-harness
   - agent-harness
   - agent-autonomous-prompt-engineer
+  - name: unity-fps-controls
+    owner: seretos-games
+  - name: unity-interaction
+    owner: seretos-games
+  - name: unity-avatar
+    owner: seretos-games
+  - name: unity-menu
+    owner: seretos-games
+  - name: basic-fps
+    owner: seretos-games
