@@ -33,6 +33,21 @@ workflow).
   `daily/YYYY-MM-DD.json` (UTC), plus an `index.json` listing every day collected so far.
 - Runs are idempotent: re-collecting the same window reproduces byte-identical JSON.
 
+## Repo scope
+
+`config/repos.yml` decides which repos are collected:
+
+- `orgs:` - whole GitHub organisations. Every repo in them is collected (private, forks and
+  archived included), found via `GET /orgs/{org}/repos`, so new repos are picked up without a
+  config change. A repo created after the run's `--until` day is skipped, which keeps a re-run
+  of an old window reproducible.
+- `exclude:` - `owner/name` repos to leave out.
+- `repos:` - optional single repos (a bare name needs a top-level `owner:`, or a mapping with
+  `name`/`owner`/`clone_url`). An explicit entry overrides a discovered repo of the same name.
+
+If an org listing fails (403/404, not a rate limit) the run aborts with a non-zero exit and
+writes no daily file, rather than publishing a snapshot with missing repos.
+
 ## Nightly publish
 
 `.github/workflows/nightly.yml` runs `python -m ecosystem_statistics publish` every night
