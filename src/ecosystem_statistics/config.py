@@ -15,9 +15,11 @@ import yaml
 
 @dataclass(frozen=True)
 class RepoConfig:
-    """One repo to collect. `owner` is the entry's own owner or the file's default. `clone_url` defaults to the public GitHub URL for
-    `owner/name` but can be overridden per-entry (used by tests to point at a local
-    `file://` clone instead of the network)."""
+    """One repo to collect.
+
+    `owner` is the entry's own owner or the file's default. `clone_url` defaults to
+    the public GitHub URL for `owner/name` but can be overridden per-entry (used by
+    tests to point at a local `file://` clone instead of the network)."""
 
     owner: str
     name: str
