@@ -250,6 +250,15 @@ def list_org_repos(
     sleep=_time.sleep,
     now=_time.time,
 ) -> list[tuple[str, str]]:
-    """Skeleton (plan #29): `(name, clone_url)` of every repo in `org`, created on or before
-    `until`, sorted by name."""
-    raise NotImplementedError
+    """`(name, clone_url)` of every repo in `org` (all types, forks and archived kept),
+    created on or before `until` (UTC date), sorted by name. The `created_at` cut keeps a
+    re-run of an old window reproducible once newer repos exist. A failed listing raises
+    (`request` -> `raise_for_status`)."""
+    url = f"https://api.github.com/orgs/{org}/repos"
+    params = {"type": "all", "per_page": "100"}
+    results: list[tuple[str, str]] = []
+    for item in _paginate(client, url, params=params, sleep=sleep, now=now):
+        if _parse_github_datetime(item["created_at"]).date() > until:
+            continue
+        results.append((item["name"], item["clone_url"]))
+    return sorted(results)

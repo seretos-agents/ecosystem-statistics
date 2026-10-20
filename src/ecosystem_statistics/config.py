@@ -36,14 +36,29 @@ def _default_clone_url(owner: str, name: str) -> str:
 
 
 def load_repos(path: Path, *, discover=None) -> list[RepoConfig]:
-    """Parse `repos.yml`. Each entry under `repos:` is either a plain repo name string
-    (using the top-level `owner` and the default clone URL) or a mapping with `name` and
-    optional `owner` (overrides the top-level default) and `clone_url` overrides. The
-    default clone URL is derived from the entry's effective owner."""
+    """Parse `repos.yml`. Optional keys:
+
+    - `owner`: default owner for bare-string entries (required only if one is used).
+    - `repos`: each entry is a name string or a mapping with `name` and optional `owner`
+      and `clone_url`.
+    - `orgs`: org names whose every repo is collected, via `discover(org) -> [(name,
+      clone_url)]` (injected so this module stays free of HTTP).
+    - `exclude`: `owner/name` entries dropped from the result, discovered or explicit.
+
+    An explicit entry wins over a discovered repo with the same `owner/name`. The result
+    is sorted by `(owner, name)`."""
     data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
-    default_owner = data["owner"]
-    repos: list[RepoConfig] = []
-    for entry in data.get("repos", []):
+    default_owner = data.get("owner")
+    orgs = data.get("orgs") or []
+    if orgs and discover is None:
+        raise ValueError("repos.yml lists `orgs:` but no discover callable was given")
+
+    found: dict[tuple[str, str], RepoConfig] = {}
+    for org in orgs:
+        for name, clone_url in discover(org):
+            found[(org, name)] = RepoConfig(owner=org, name=name, clone_url=clone_url)
+
+    for entry in data.get("repos") or []:
         if isinstance(entry, str):
             name = entry
             owner = default_owner
@@ -52,14 +67,18 @@ def load_repos(path: Path, *, discover=None) -> list[RepoConfig]:
             name = entry["name"]
             owner = entry.get("owner", default_owner)
             clone_url = entry.get("clone_url")
-        repos.append(
-            RepoConfig(
-                owner=owner,
-                name=name,
-                clone_url=clone_url or _default_clone_url(owner, name),
-            )
+        if owner is None:
+            raise ValueError(f"repo entry {name!r} has no owner and repos.yml has no `owner:`")
+        found[(owner, name)] = RepoConfig(
+            owner=owner,
+            name=name,
+            clone_url=clone_url or _default_clone_url(owner, name),
         )
-    return repos
+
+    excluded = set(data.get("exclude") or [])
+    return [
+        found[key] for key in sorted(found) if f"{key[0]}/{key[1]}" not in excluded
+    ]
 
 
 def load_churn_config(path: Path) -> ChurnConfig:

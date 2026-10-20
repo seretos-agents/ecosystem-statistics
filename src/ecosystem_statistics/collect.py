@@ -342,13 +342,16 @@ def _collect_repo(
 def run_collect(
     *, since: date, until: date, out_dir: Path, cache_dir: Path, config_dir: Path
 ) -> None:
-    repos = config.load_repos(config_dir / "repos.yml")
     churn_cfg = config.load_churn_config(config_dir / "churn.yml")
     token = os.environ.get("ECOSYSTEM_TOKEN") or os.environ.get("GITHUB_TOKEN")
     days = _daterange(since, until)
 
     client = github.make_client(token)
     try:
+        repos = config.load_repos(
+            config_dir / "repos.yml",
+            discover=lambda org: github.list_org_repos(client, org, until=until),
+        )
         per_repo_by_day: dict[date, dict[str, dict]] = {day: {} for day in days}
         rounds_samples_by_day: dict[date, list[rounds.DaySamples]] = {day: [] for day in days}
         throughput_samples_by_day: dict[date, list[throughput.DayThroughput]] = {

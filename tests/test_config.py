@@ -32,6 +32,7 @@ def test_repos_yml_scopes_both_orgs() -> None:
     # Ticket #29: `exclude: [seretos-agents/ecosystem-statistics]` -- ONLY that repo is
     # excluded; agent-gamejam stays collected (plan.md's agent-gamejam exclusion is superseded).
     assert "seretos-games/agent-gamejam" in full
+    assert "seretos-agents/agent-gamejam" in full
 
 
 def test_load_repos_union_dedup_exclude(tmp_path: Path) -> None:

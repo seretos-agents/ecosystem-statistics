@@ -1,52 +1,20 @@
-# Repos the nightly collector scans. One entry per repo; the collector reads issues,
-# issue comments and pull requests for each of these via the GitHub REST API.
+# Repo scope of the nightly collector. The collector reads issues, issue comments and pull
+# requests for each repo via the GitHub REST API.
 #
-# Scope: two owners.
-#   - seretos-agents/* (the top-level `owner:` default below) - 20 repos, the Modular
-#     Software Factory plugins/libs on Projects-v2 board `seretos-agents` #1, excluding this
-#     repo itself.
-#   - seretos-games/* - five repos (unity-fps-controls, unity-interaction, unity-avatar,
-#     unity-menu, basic-fps) via a per-entry `owner:`. agent-gamejam is deliberately excluded.
-# Widening to the `Seretos/*` org (its own board `Seretos` #2) is a config change here, not a
-# code change.
+# `orgs:` names whole GitHub organisations: every repo in them (private, forks and archived
+# included) is collected, including repos created after this file was written. Discovery
+# lists `GET /orgs/{org}/repos` with ECOSYSTEM_TOKEN; a repo created after the run's
+# `--until` day is skipped so re-running an old window stays reproducible. If a listing
+# fails (403/404) the run aborts and writes no daily file.
 #
-# Each entry under `repos:` is normally just the repo name (owner = the top-level `owner`,
-# clone URL derived as https://github.com/<owner>/<name>.git). An entry may instead be a
-# mapping with `name` and optionally `owner` (overrides the top-level owner) and/or an
-# explicit `clone_url` override, e.g.:
-#   - name: some-repo
-#     owner: some-other-owner
-#   - name: other-repo
-#     clone_url: https://github.com/some-other-owner/other-repo.git
-owner: seretos-agents
-repos:
-  - agent-chrome-wrapper
-  - agent-autonomous-developer
-  - agent-vdesktop
-  - agent-project-issues
-  - agent-worktree
-  - agent-unity-wrapper
-  - lib-python-projects
-  - lib-python-worktree
-  - lib-python-vdesktop
-  - lib-python-config
-  - agent-serena-wrapper
-  - lib-python-comfy
-  - agent-comfy
-  - agent-blender-wrapper
-  - agent-meshy-wrapper
-  - agent-line-feed-guard
-  - agent-ticket-orchestrator
-  - lib-python-harness
-  - agent-harness
-  - agent-autonomous-prompt-engineer
-  - name: unity-fps-controls
-    owner: seretos-games
-  - name: unity-interaction
-    owner: seretos-games
-  - name: unity-avatar
-    owner: seretos-games
-  - name: unity-menu
-    owner: seretos-games
-  - name: basic-fps
-    owner: seretos-games
+# `exclude:` lists `owner/name` repos to drop from the result.
+#
+# `repos:` (optional) adds or overrides single repos. An entry is a bare name (needs a
+# top-level `owner:`) or a mapping with `name`, optionally `owner` and/or an explicit
+# `clone_url`. An explicit entry wins over a discovered repo with the same `owner/name`.
+# Widening to the `Seretos/*` org is a one-line addition to `orgs:`.
+orgs:
+  - seretos-agents
+  - seretos-games
+exclude:
+  - seretos-agents/ecosystem-statistics
