@@ -35,7 +35,7 @@ def _default_clone_url(owner: str, name: str) -> str:
     return f"https://github.com/{owner}/{name}.git"
 
 
-def load_repos(path: Path) -> list[RepoConfig]:
+def load_repos(path: Path, *, discover=None) -> list[RepoConfig]:
     """Parse `repos.yml`. Each entry under `repos:` is either a plain repo name string
     (using the top-level `owner` and the default clone URL) or a mapping with `name` and
     optional `owner` (overrides the top-level default) and `clone_url` overrides. The

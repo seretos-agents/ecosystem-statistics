@@ -240,3 +240,16 @@ def list_issue_comments(
         (item["created_at"], item["body"])
         for item in _paginate(client, url, params=params, sleep=sleep, now=now)
     ]
+
+
+def list_org_repos(
+    client: httpx.Client,
+    org: str,
+    *,
+    until: date,
+    sleep=_time.sleep,
+    now=_time.time,
+) -> list[tuple[str, str]]:
+    """Skeleton (plan #29): `(name, clone_url)` of every repo in `org`, created on or before
+    `until`, sorted by name."""
+    raise NotImplementedError
