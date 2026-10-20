@@ -29,7 +29,8 @@ def test_repos_yml_scopes_both_orgs() -> None:
     assert "seretos-games/mmo-server" in full
     assert "seretos-agents/mmo-server" in full
     assert "seretos-agents/ecosystem-statistics" not in full
-    # Only ecosystem-statistics is excluded (ticket #29), not agent-gamejam.
+    # Ticket #29: `exclude: [seretos-agents/ecosystem-statistics]` -- ONLY that repo is
+    # excluded; agent-gamejam stays collected (plan.md's agent-gamejam exclusion is superseded).
     assert "seretos-games/agent-gamejam" in full
 
 
@@ -52,7 +53,7 @@ def test_load_repos_union_dedup_exclude(tmp_path: Path) -> None:
     )
     listing = {
         "a": [("r1", "u-a-r1"), ("r2", "u-a-r2")],
-        "b": [("r3", "u-b-r3"), ("r4", "u-b-r4")],
+        "b": [("r6", "u-b-r6"), ("r4", "u-b-r4"), ("r3", "u-b-r3")],
     }
 
     repos = load_repos(cfg, discover=lambda org: listing[org])
@@ -60,6 +61,7 @@ def test_load_repos_union_dedup_exclude(tmp_path: Path) -> None:
     assert [(r.owner, r.name, r.clone_url) for r in repos] == [
         ("a", "r2", "file:///override"),
         ("b", "r3", "u-b-r3"),
+        ("b", "r6", "u-b-r6"),
         ("c", "r5", "https://github.com/c/r5.git"),
     ]
 

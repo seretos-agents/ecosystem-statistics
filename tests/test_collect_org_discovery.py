@@ -47,7 +47,7 @@ def _argv(out: Path, cache: Path) -> list[str]:
     return [
         "collect",
         "--since", "2024-01-01",
-        "--until", "2024-01-01",
+        "--until", "2024-01-03",
         "--out", str(out),
         "--cache-dir", str(cache),
     ]
@@ -86,7 +86,7 @@ def test_collect_includes_discovered_repos(
 ) -> None:
     origins = {
         n: _origin(tmp_path, n)
-        for n in ("agents-p1", "agents-p2", "games-p1", "games-p2", "dup-x", "explicit-x")
+        for n in ("agents-p1", "agents-p2", "mid-x", "games-p1", "games-p2", "dup-x", "explicit-x")
     }
     workdir = tmp_path / "workspace"
     _write_config(
@@ -111,10 +111,13 @@ def test_collect_includes_discovered_repos(
                 _item("excluded-x", "2023-01-01T00:00:00Z", BOGUS),  # exclude: removes it
             ],
             [
+                # created inside the window (after `since`, before `until`): kept only if
+                # the listing is cut off at `until`, not at `since`
+                _item("mid-x", "2024-01-02T10:00:00Z", origins["mid-x"].clone_url()),
                 # created on `until` itself (last second): kept
-                _item("agents-p2", "2024-01-01T23:59:59Z", origins["agents-p2"].clone_url()),
+                _item("agents-p2", "2024-01-03T23:59:59Z", origins["agents-p2"].clone_url()),
                 # created the day after `until`: dropped
-                _item("future-x", "2024-01-02T00:00:00Z", BOGUS),
+                _item("future-x", "2024-01-04T00:00:00Z", BOGUS),
             ],
             "seretos-agents",
         ),
@@ -139,6 +142,7 @@ def test_collect_includes_discovered_repos(
         "seretos-agents/agents-p1",
         "seretos-agents/agents-p2",
         "seretos-agents/dup-x",
+        "seretos-agents/mid-x",
         "seretos-agents/explicit-x",
         "seretos-games/games-p1",
         "seretos-games/games-p2",
