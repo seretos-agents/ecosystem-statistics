@@ -162,3 +162,32 @@ def test_exclude_paths_ignored_by_main_rework(synthetic_repo: SyntheticRepo) -> 
     assert result.young_removed == 1
     assert result.added_to_main == 10
     assert result.value == 0.1
+
+
+def test_removed_lines_in_path_with_spaces_are_blamed(synthetic_repo: SyntheticRepo) -> None:
+    """Git appends a trailing tab to the `--- a/<path>` header of a -U0 diff when the path
+    contains whitespace. A first-parent merge removing lines from such a file must still be
+    blamed against the real path (not `<path>\t`, which makes `git blame` exit 128 and
+    crashes the nightly run) and counted as young_removed (#28)."""
+    repo = synthetic_repo
+    day0 = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    feature_day = datetime(2024, 1, 5, 12, 0, 0, tzinfo=timezone.utc)
+    merge_day = datetime(2024, 1, 11, 12, 0, 0, tzinfo=timezone.utc)
+    path = "dir/Global Volume Profile.asset"
+
+    ten_lines = "\n".join(f"line{i}" for i in range(10)) + "\n"
+    repo.commit_file(path, ten_lines, "day0: add 10 lines", when=day0)
+    repo.branch("feature", start_point="main")
+
+    eight_lines = "\n".join(f"line{i}" for i in range(8)) + "\n"
+    repo.commit_file(path, eight_lines, "feature: remove 2 lines", when=feature_day)
+
+    repo.checkout("main")
+    repo.merge("feature", "Merge branch 'feature'", when=merge_day)
+
+    from ecosystem_statistics.churn import main_rework
+
+    result = main_rework(repo.path, date(2024, 1, 11), window_days=21)
+    assert result.young_removed == 2
+    assert result.added_to_main == 10
+    assert result.value == 0.2
