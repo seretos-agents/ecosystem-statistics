@@ -169,7 +169,7 @@ class MainReworkResult:
 
 
 _HUNK_RE = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,\d+)? @@")
-_OLD_PATH_RE = re.compile(r"^--- (?:a/(?P<path>.*)|/dev/null)$")
+_OLD_PATH_RE = re.compile(r"^--- (?:a/(?P<path>.*?)\t?|/dev/null)$")
 _BLAME_HEADER_RE = re.compile(r"^([0-9a-f]{40}) \d+ \d+")
 
 
