@@ -15,7 +15,7 @@ dependencies = [
   # reviewed commit. A lib-python-projects release only reaches this repo via
   # an explicit, reviewed bump of this pin -- never an automatic branch move.
   # Nothing in this repo imports it yet (#16); this only adds the dependency.
-  "lib-python-projects @ git+https://github.com/seretos-agents/lib-python-projects@v0.4.0",
+  "lib-python-projects @ git+https://github.com/seretos-agents/lib-python-projects@v0.4.1",
 ]
 
 [project.optional-dependencies]
