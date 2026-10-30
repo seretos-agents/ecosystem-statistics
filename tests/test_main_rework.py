@@ -191,3 +191,38 @@ def test_removed_lines_in_path_with_spaces_are_blamed(synthetic_repo: SyntheticR
     assert result.young_removed == 2
     assert result.added_to_main == 10
     assert result.value == 0.2
+
+
+def test_commitless_bare_clone_yields_zero_result(tmp_path) -> None:
+    """A repo with no commits (unborn HEAD) is a legal state: `git log --first-parent`
+    exits 128 there, which used to abort the whole nightly run (#33)."""
+    from conftest import SyntheticRepo
+    from ecosystem_statistics import gitrepo
+    from ecosystem_statistics.churn import MainReworkResult, main_rework
+
+    origin = SyntheticRepo(tmp_path / "origin")
+    clone = tmp_path / "clone.git"
+    gitrepo.clone_bare(origin.clone_url(), clone)
+
+    result = main_rework(clone, date(2024, 1, 1), window_days=21)
+    assert result == MainReworkResult(
+        young_removed=0, added_to_main=0, window_days=21, value=None
+    )
+    assert gitrepo.has_commits(clone) is False
+
+
+def test_has_commits_flips_once_origin_gains_a_commit(tmp_path) -> None:
+    """Retrospective-style edge coverage: the probe turns True on a previously-empty
+    cache after `fetch_all` brings in the first commit (#33)."""
+    from conftest import SyntheticRepo
+    from ecosystem_statistics import gitrepo
+
+    origin = SyntheticRepo(tmp_path / "origin")
+    clone = tmp_path / "clone.git"
+    gitrepo.clone_bare(origin.clone_url(), clone)
+    assert gitrepo.has_commits(clone) is False
+
+    when = datetime(2024, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+    origin.commit_file("a.py", "a\n", "init", when=when)
+    gitrepo.fetch_all(clone)
+    assert gitrepo.has_commits(clone) is True
