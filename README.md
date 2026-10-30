@@ -48,6 +48,19 @@ workflow).
 If an org listing fails (403/404, not a rate limit) the run aborts with a non-zero exit and
 writes no daily file, rather than publishing a snapshot with missing repos.
 
+### Failed repos (daily `schema_version` 2)
+
+A repo whose collection raises (git clone/fetch error, GitHub API error, ...) is skipped, not
+fatal: every daily file carries a top-level `failed_repos`, a sorted list of `owner/name`
+strings (`[]` on a clean run). A failed repo is absent from `per_repo` and contributes nothing
+to `totals`; "collected, no activity" (zero blocks in `per_repo`) and "not collected" are
+therefore distinguishable. Granularity is per repo **per window**: a repo is collected once for
+the whole `--since`..`--until` window, so it is listed in `failed_repos` on every day of that
+window; re-run a narrower window to recover individual days. The failure (repo, window,
+exception type and message, credentials scrubbed) goes to stderr and the run still exits 0. Only
+when every configured repo fails does the run abort with a non-zero exit and write no file.
+`index.json` keeps `schema_version` 1.
+
 ## Nightly publish
 
 `.github/workflows/nightly.yml` runs `python -m ecosystem_statistics publish` every night

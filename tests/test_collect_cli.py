@@ -119,8 +119,9 @@ def test_rerun_is_byte_identical(
     # Assert the full expected top-level key set (not just the absence of the literal
     # `generated_at` key) so any wall-clock or other stray field is caught, whatever it
     # is named.
-    assert set(day1_payload.keys()) == {"schema_version", "date", "totals", "per_repo"}
-    assert day1_payload["schema_version"] == 1
+    assert set(day1_payload.keys()) == {"schema_version", "date", "totals", "per_repo", "failed_repos"}
+    assert day1_payload["schema_version"] == 2
+    assert day1_payload["failed_repos"] == []
     assert day1_payload["date"] == "2024-01-01"
     assert set(day1_payload["totals"].keys()) == {
         "branch_churn", "main_rework", "escalations", "rounds", "regression_chains",
