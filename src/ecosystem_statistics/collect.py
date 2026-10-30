@@ -4,8 +4,12 @@ deterministic daily JSON files plus a cumulative index (plan #9)."""
 
 from __future__ import annotations
 
+import base64
 import os
+import re
+import subprocess
 import sys
+import traceback
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -339,6 +343,49 @@ def _collect_repo(
     return per_day, rounds_by_day, throughput_by_day
 
 
+class NoRepoCollectedError(RuntimeError):
+    """Every configured repo failed; nothing was written."""
+
+
+_SECRET_RE = re.compile(r"(?i)(authorization:\s*\w+\s+|extraheader=)\S+")
+
+
+def _scrub(text: str, token: str | None) -> str:
+    """Remove credentials from text bound for stderr (auth header values, the token itself)."""
+    text = _SECRET_RE.sub(lambda m: m.group(1) + "***", text)
+    if token:
+        basic = base64.b64encode(f"x-access-token:{token}".encode("ascii", "replace")).decode()
+        for secret in (basic, token):
+            text = text.replace(secret, "***")
+    return text
+
+
+def _report_repo_failure(
+    full_name: str, exc: Exception, *, since: date, until: date, token: str | None
+) -> None:
+    """Print one failed repo to stderr without ever echoing the git command line.
+
+    `str(CalledProcessError)` contains the whole command, including the
+    `http.<url>.extraheader=AUTHORIZATION: basic <token>` argument, so it is never printed.
+    """
+    if isinstance(exc, subprocess.CalledProcessError):
+        message = f"git command failed with exit status {exc.returncode}"
+    else:
+        message = str(exc)
+    lines = [
+        f"collect: {full_name} failed for {since.isoformat()}..{until.isoformat()}: "
+        f"{type(exc).__name__}: {message}"
+    ]
+    captured = getattr(exc, "stderr", None)
+    if isinstance(captured, bytes):
+        captured = captured.decode("utf-8", "replace")
+    if captured and str(captured).strip():
+        lines.append(str(captured).rstrip())
+    # Frames only: format_exception would append str(exc) again.
+    lines.append("".join(traceback.format_tb(exc.__traceback__)).rstrip())
+    print(_scrub("\n".join(lines), token), file=sys.stderr)
+
+
 def run_collect(
     *, since: date, until: date, out_dir: Path, cache_dir: Path, config_dir: Path
 ) -> None:
@@ -357,23 +404,32 @@ def run_collect(
         throughput_samples_by_day: dict[date, list[throughput.DayThroughput]] = {
             day: [] for day in days
         }
+        failed: list[str] = []
         for repo_cfg in repos:
             full_name = f"{repo_cfg.owner}/{repo_cfg.name}"
-            per_day, repo_rounds_by_day, repo_throughput_by_day = _collect_repo(
-                repo_cfg,
-                days=days,
-                cache_dir=cache_dir,
-                churn_cfg=churn_cfg,
-                client=client,
-                token=token,
-            )
+            try:
+                per_day, repo_rounds_by_day, repo_throughput_by_day = _collect_repo(
+                    repo_cfg,
+                    days=days,
+                    cache_dir=cache_dir,
+                    churn_cfg=churn_cfg,
+                    client=client,
+                    token=token,
+                )
+            except Exception as exc:
+                failed.append(full_name)
+                _report_repo_failure(full_name, exc, since=since, until=until, token=token)
+                continue
             for day, blocks in per_day.items():
                 per_repo_by_day[day][full_name] = blocks
                 rounds_samples_by_day[day].append(repo_rounds_by_day[day])
                 throughput_samples_by_day[day].append(repo_throughput_by_day[day])
+        if repos and len(failed) == len(repos):
+            raise NoRepoCollectedError(f"every repo failed: {', '.join(sorted(failed))}")
     finally:
         client.close()
 
+    failed_repos = sorted(failed)
     for day in days:
         per_repo = per_repo_by_day[day]
         branch_blocks = [entry["branch_churn"] for entry in per_repo.values()]
@@ -382,7 +438,7 @@ def run_collect(
         regression_chain_blocks = [entry["regression_chains"] for entry in per_repo.values()]
         clarification_blocks = [entry["clarification"] for entry in per_repo.values()]
         payload = {
-            "schema_version": 1,
+            "schema_version": 2,
             "date": day.isoformat(),
             "totals": {
                 "branch_churn": _merge_branch_churn(branch_blocks),
@@ -396,6 +452,7 @@ def run_collect(
                 "clarification": _merge_clarification(clarification_blocks),
             },
             "per_repo": per_repo,
+            "failed_repos": failed_repos,
         }
         output.write_daily(out_dir, day.isoformat(), payload)
 

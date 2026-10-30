@@ -47,7 +47,9 @@ the worktree and branch and dispatches the work package. It is never done by han
   (`seretos-agents`, `seretos-games`); every repo in them is discovered via
   `GET /orgs/{org}/repos` (skipping repos created after `--until`), minus `exclude:` entries
   (`seretos-agents/ecosystem-statistics`). Optional `repos:` entries add or override single repos.
-  A failed org listing aborts the run before any daily file is written. Adding an org (e.g. later
+  A failed org listing aborts the run before any daily file is written. A failure inside a single
+  repo does not abort: it is recorded in the daily `failed_repos` list (schema v2, per repo per
+  window) and on stderr; only a run where every repo fails aborts, writing nothing. Adding an org (e.g. later
   `Seretos`) or an exclusion is a config change, not a code change.
 - **The pipeline's own traces are the data source — see the parser ticket for the exact formats.**
   In short: `adev:event v1` HTML-comment blocks on tickets carry critic/review/CI round counts (two

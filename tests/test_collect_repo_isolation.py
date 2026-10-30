@@ -110,18 +110,21 @@ def test_one_failing_repo_does_not_abort_collect(
         assert payload["schema_version"] == 2
         assert payload["failed_repos"] == ["acme/bad"]
         assert set(payload["per_repo"]) == {"acme/demo-a", "acme/demo-b"}
-        assert "acme/bad" not in payload["per_repo"]
         assert payload["per_repo"] == baseline["per_repo"]
         assert payload["totals"] == baseline["totals"]
     index = json.loads((out / "index.json").read_text(encoding="utf-8"))
-    assert json.dumps(index).count("2024-01-0") >= 2
+    index_text = json.dumps(index)
+    for day in DAYS:
+        assert index_text.count(f'"{day}"') >= 1, (day, index)
+    assert index_text.count(DAYS[0]) >= 1 and index_text.count(DAYS[1]) >= 1
 
     err = capsys.readouterr().err
     assert "acme/bad" in err
     assert WINDOW in err
     if cause == "git":
         assert "CalledProcessError" in err
-        assert "nonexistent" in err
+        # git's own message (exc.stderr), not the command line, which holds the path too.
+        assert "does not exist" in err or "Could not read from remote" in err or "fatal:" in err
     else:
         assert "HTTPStatusError" in err
         assert "500" in err
@@ -184,3 +187,24 @@ def test_all_repos_failing_writes_nothing(
     )
     assert proc.returncode != 0
     assert not (out / "index.json").exists()
+
+
+def test_token_never_reaches_stderr(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    import base64
+
+    from ecosystem_statistics.__main__ import main
+
+    secret = "ghp_SuperSecretTokenValue123"
+    monkeypatch.setenv("ECOSYSTEM_TOKEN", secret)
+    healthy, everything, workdir = _setup(tmp_path, monkeypatch, "git")
+    _write_config(workdir / "config", everything)
+    monkeypatch.chdir(workdir)
+    capsys.readouterr()
+    assert main(_argv(workdir / "out", workdir / "cache")) == 0
+    err = capsys.readouterr().err
+    assert "acme/bad" in err and "CalledProcessError" in err
+    basic = base64.b64encode(f"x-access-token:{secret}".encode()).decode()
+    for forbidden in (secret, basic, "extraheader", "AUTHORIZATION"):
+        assert forbidden not in err
