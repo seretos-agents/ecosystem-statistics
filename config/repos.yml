@@ -18,3 +18,4 @@ orgs:
   - seretos-games
 exclude:
   - seretos-agents/ecosystem-statistics
+  - seretos-games/agent-gamejam

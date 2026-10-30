@@ -45,6 +45,27 @@ def run_bytes(cwd: Path, *args: str) -> bytes:
     return result.stdout
 
 
+def has_commits(repo_path: Path) -> bool:
+    """True when HEAD resolves to a commit; False for an unborn HEAD (repo with no commits).
+
+    `rev-parse --verify --quiet` exits 1 silently for an unresolvable ref. Any other
+    non-zero exit (not a repo, corruption) raises, so real failures stay loud.
+    """
+    result = subprocess.run(
+        ["git", "-C", str(repo_path), *_BASE_CONFIG,
+         "rev-parse", "--verify", "--quiet", "HEAD^{commit}"],
+        check=False,
+        capture_output=True,
+    )
+    if result.returncode == 0:
+        return True
+    if result.returncode == 1:
+        return False
+    raise subprocess.CalledProcessError(
+        result.returncode, result.args, output=result.stdout, stderr=result.stderr
+    )
+
+
 def _auth_header_args(token: str | None) -> list[str]:
     if not token:
         return []

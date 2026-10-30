@@ -194,12 +194,13 @@ def _first_parent_commits(repo_path: Path) -> list[tuple[str, datetime]]:
     """Every first-parent commit reachable from HEAD, oldest git-log order, as
     (sha, committer-time-UTC). Committer time from `%ct` is already an absolute UTC
     epoch second, so no timezone-offset arithmetic is needed to bucket it by UTC day."""
+    if not gitrepo.has_commits(repo_path):
+        return []
     out = gitrepo.run(repo_path, "log", "--first-parent", "--format=%H %ct").strip()
     commits: list[tuple[str, datetime]] = []
-    if out:
-        for line in out.splitlines():
-            sha, ct = line.split()
-            commits.append((sha, datetime.fromtimestamp(int(ct), tz=timezone.utc)))
+    for line in out.splitlines():
+        sha, ct = line.split()
+        commits.append((sha, datetime.fromtimestamp(int(ct), tz=timezone.utc)))
     return commits
 
 
