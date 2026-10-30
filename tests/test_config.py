@@ -29,9 +29,9 @@ def test_repos_yml_scopes_both_orgs() -> None:
     assert "seretos-games/mmo-server" in full
     assert "seretos-agents/mmo-server" in full
     assert "seretos-agents/ecosystem-statistics" not in full
-    # Ticket #29: `exclude: [seretos-agents/ecosystem-statistics]` -- ONLY that repo is
-    # excluded; agent-gamejam stays collected (plan.md's agent-gamejam exclusion is superseded).
-    assert "seretos-games/agent-gamejam" in full
+    # Ticket #33: `seretos-games/agent-gamejam` is excluded again (maintainer decision);
+    # the same-named repo in the other org stays collected.
+    assert "seretos-games/agent-gamejam" not in full
     assert "seretos-agents/agent-gamejam" in full
 
 
