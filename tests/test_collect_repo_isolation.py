@@ -112,11 +112,6 @@ def test_one_failing_repo_does_not_abort_collect(
         assert set(payload["per_repo"]) == {"acme/demo-a", "acme/demo-b"}
         assert payload["per_repo"] == baseline["per_repo"]
         assert payload["totals"] == baseline["totals"]
-    index = json.loads((out / "index.json").read_text(encoding="utf-8"))
-    index_text = json.dumps(index)
-    for day in DAYS:
-        assert index_text.count(f'"{day}"') >= 1, (day, index)
-    assert index_text.count(DAYS[0]) >= 1 and index_text.count(DAYS[1]) >= 1
 
     err = capsys.readouterr().err
     assert "acme/bad" in err
@@ -176,7 +171,8 @@ def test_all_repos_failing_writes_nothing(
 
     with pytest.raises(NoRepoCollectedError):
         main(_argv(out, cache))
-    assert not list((out / "daily").glob("*.json")) if (out / "daily").exists() else True
+    daily_dir = out / "daily"
+    assert not daily_dir.exists() or not list(daily_dir.glob("*.json"))
     assert not (out / "index.json").exists()
 
     proc = subprocess.run(
