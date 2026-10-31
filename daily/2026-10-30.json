@@ -1,8 +1,6 @@
 {
   "date": "2026-10-30",
-  "failed_repos": [
-    "seretos-games/mmo-testclient"
-  ],
+  "failed_repos": [],
   "per_repo": {
     "seretos-agents/agent-autonomous-developer": {
       "branch_churn": {
@@ -3513,10 +3511,131 @@
         }
       }
     },
+    "seretos-games/mmo-testclient": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 18767240,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
     "seretos-games/space-client": {
       "branch_churn": {
-        "gross_added": 12540,
-        "net_added": 12063,
+        "gross_added": 13206,
+        "net_added": 12723,
         "per_pr": [
           {
             "gross_added": 310,
@@ -3608,10 +3727,17 @@
             "net_added": 3634,
             "number": 125,
             "value": 0.0746
+          },
+          {
+            "gross_added": 666,
+            "merge_sha": "49dcddcfad30f973069d94cca0da64beb58be3d4",
+            "net_added": 660,
+            "number": 126,
+            "value": 0.009
           }
         ],
-        "prs": 13,
-        "value": 0.038
+        "prs": 14,
+        "value": 0.0366
       },
       "clarification": {
         "clarifications": 1,
@@ -3633,17 +3759,17 @@
         "auto_answered": 0,
         "by_reason": {},
         "escalated": 0,
-        "in_progress": 14,
+        "in_progress": 15,
         "value": 0.0
       },
       "main_rework": {
-        "added_to_main": 50133,
-        "value": 0.0296,
+        "added_to_main": 50793,
+        "value": 0.031,
         "window_days": 21,
-        "young_removed": 1486
+        "young_removed": 1574
       },
       "regression_chains": {
-        "active": 20,
+        "active": 22,
         "chain_active": 3,
         "chains": [
           {
@@ -3660,7 +3786,7 @@
           }
         ],
         "detected": 3,
-        "value": 0.15
+        "value": 0.1364
       },
       "rounds": {
         "lanes": {
@@ -3669,93 +3795,93 @@
             "gates": {
               "ci": {
                 "f": {
-                  "avg": 0.2308,
-                  "median": 0,
+                  "avg": 0.2143,
+                  "median": 0.0,
                   "p90": 1
                 },
                 "i": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "used": {
                   "avg": 1,
-                  "median": 1,
+                  "median": 1.0,
                   "p90": 2
                 }
               },
               "plan-critic": {
                 "f": {
-                  "avg": 0.2308,
-                  "median": 0,
+                  "avg": 0.2143,
+                  "median": 0.0,
                   "p90": 1
                 },
                 "i": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "used": {
-                  "avg": 1.1538,
-                  "median": 1,
+                  "avg": 1.1429,
+                  "median": 1.0,
                   "p90": 2
                 }
               },
               "rebase": {
                 "f": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "i": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "used": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 }
               },
               "review": {
                 "f": {
-                  "avg": 0.5385,
-                  "median": 1,
+                  "avg": 0.5714,
+                  "median": 1.0,
                   "p90": 1
                 },
                 "i": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "used": {
-                  "avg": 1.6154,
-                  "median": 2,
+                  "avg": 1.6429,
+                  "median": 2.0,
                   "p90": 3
                 }
               },
               "test-critic": {
                 "f": {
-                  "avg": 0.4615,
-                  "median": 0,
+                  "avg": 0.4286,
+                  "median": 0.0,
                   "p90": 2
                 },
                 "i": {
                   "avg": 0,
-                  "median": 0,
+                  "median": 0.0,
                   "p90": 0
                 },
                 "used": {
-                  "avg": 1.2308,
-                  "median": 1,
+                  "avg": 1.2143,
+                  "median": 1.0,
                   "p90": 2
                 }
               }
             },
             "infra_share": 0.0,
             "over_soft_cap_share": 0.0,
-            "sessions": 13
+            "sessions": 14
           },
           "prose": {
             "counting": "f+i",
@@ -3768,28 +3894,28 @@
         "replan_triggered": 0,
         "sessions": {
           "per_ticket": 1.0,
-          "started": 13,
-          "tickets": 13
+          "started": 14,
+          "tickets": 14
         }
       },
       "throughput": {
         "closed": {
-          "completed": 13,
-          "manual": 0,
+          "completed": 16,
+          "manual": 2,
           "not_planned": 0,
           "other": 0,
-          "pipeline": 13
+          "pipeline": 14
         },
         "dependency_bumps": {
           "closed": 1,
           "created": 1
         },
         "events": {
-          "ci_green": 13,
+          "ci_green": 14,
           "released": 20,
-          "started": 14
+          "started": 15
         },
-        "merged_prs": 13,
+        "merged_prs": 14,
         "packages": {
           "bundled": 0,
           "bundled_share": 0.0,
@@ -3801,7 +3927,7 @@
         "stages": {
           "ci_green_to_done": {
             "median": 0.0053,
-            "n": 13,
+            "n": 14,
             "p90": 0.0067
           },
           "created_to_released": {
@@ -3810,14 +3936,14 @@
             "p90": 40.7906
           },
           "pr_opened_to_ci_green": {
-            "median": 0.0715,
-            "n": 12,
+            "median": 0.0736,
+            "n": 13,
             "p90": 0.3722
           },
           "released_to_started": {
-            "median": 4.1381,
-            "n": 14,
-            "p90": 9.39
+            "median": 4.2794,
+            "n": 15,
+            "p90": 12.4617
           },
           "started_to_pr_opened": {
             "median": 0.5725,
@@ -4772,10 +4898,10 @@
   "schema_version": 2,
   "totals": {
     "branch_churn": {
-      "gross_added": 13520,
-      "net_added": 13025,
-      "prs": 14,
-      "value": 0.0366
+      "gross_added": 14186,
+      "net_added": 13685,
+      "prs": 15,
+      "value": 0.0353
     },
     "clarification": {
       "clarifications": 1,
@@ -4797,17 +4923,17 @@
       "auto_answered": 0,
       "by_reason": {},
       "escalated": 0,
-      "in_progress": 15,
+      "in_progress": 16,
       "value": 0.0
     },
     "main_rework": {
-      "added_to_main": 249572,
-      "value": 0.0061,
+      "added_to_main": 19017472,
+      "value": 0.0001,
       "window_days": 21,
-      "young_removed": 1531
+      "young_removed": 1619
     },
     "regression_chains": {
-      "active": 21,
+      "active": 23,
       "chain_active": 3,
       "chains": [
         {
@@ -4824,7 +4950,7 @@
         }
       ],
       "detected": 3,
-      "value": 0.1429
+      "value": 0.1304
     },
     "rounds": {
       "lanes": {
@@ -4833,93 +4959,93 @@
           "gates": {
             "ci": {
               "f": {
-                "avg": 0.2143,
-                "median": 0.0,
+                "avg": 0.2,
+                "median": 0,
                 "p90": 1
               },
               "i": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "used": {
                 "avg": 1,
-                "median": 1.0,
+                "median": 1,
                 "p90": 2
               }
             },
             "plan-critic": {
               "f": {
-                "avg": 0.2143,
-                "median": 0.0,
+                "avg": 0.2,
+                "median": 0,
                 "p90": 1
               },
               "i": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "used": {
-                "avg": 1.1429,
-                "median": 1.0,
+                "avg": 1.1333,
+                "median": 1,
                 "p90": 2
               }
             },
             "rebase": {
               "f": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "i": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "used": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               }
             },
             "review": {
               "f": {
-                "avg": 0.5,
-                "median": 0.5,
+                "avg": 0.5333,
+                "median": 1,
                 "p90": 1
               },
               "i": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "used": {
-                "avg": 1.5714,
-                "median": 1.5,
+                "avg": 1.6,
+                "median": 2,
                 "p90": 3
               }
             },
             "test-critic": {
               "f": {
-                "avg": 0.4286,
-                "median": 0.0,
+                "avg": 0.4,
+                "median": 0,
                 "p90": 2
               },
               "i": {
                 "avg": 0,
-                "median": 0.0,
+                "median": 0,
                 "p90": 0
               },
               "used": {
-                "avg": 1.2143,
-                "median": 1.0,
+                "avg": 1.2,
+                "median": 1,
                 "p90": 2
               }
             }
           },
           "infra_share": 0.0,
           "over_soft_cap_share": 0.0,
-          "sessions": 14
+          "sessions": 15
         },
         "prose": {
           "counting": "f+i",
@@ -4931,29 +5057,29 @@
       },
       "replan_triggered": 0,
       "sessions": {
-        "per_ticket": 1.0714,
-        "started": 15,
-        "tickets": 14
+        "per_ticket": 1.0667,
+        "started": 16,
+        "tickets": 15
       }
     },
     "throughput": {
       "closed": {
-        "completed": 14,
-        "manual": 0,
+        "completed": 17,
+        "manual": 2,
         "not_planned": 0,
         "other": 0,
-        "pipeline": 14
+        "pipeline": 15
       },
       "dependency_bumps": {
         "closed": 1,
         "created": 1
       },
       "events": {
-        "ci_green": 14,
+        "ci_green": 15,
         "released": 20,
-        "started": 15
+        "started": 16
       },
-      "merged_prs": 14,
+      "merged_prs": 15,
       "packages": {
         "bundled": 0,
         "bundled_share": 0.0,
@@ -4965,7 +5091,7 @@
       "stages": {
         "ci_green_to_done": {
           "median": 0.0053,
-          "n": 14,
+          "n": 15,
           "p90": 0.0067
         },
         "created_to_released": {
@@ -4974,14 +5100,14 @@
           "p90": 40.7906
         },
         "pr_opened_to_ci_green": {
-          "median": 0.0715,
-          "n": 12,
+          "median": 0.0736,
+          "n": 13,
           "p90": 0.3722
         },
         "released_to_started": {
-          "median": 4.1381,
-          "n": 14,
-          "p90": 9.39
+          "median": 4.2794,
+          "n": 15,
+          "p90": 12.4617
         },
         "started_to_pr_opened": {
           "median": 0.5725,
