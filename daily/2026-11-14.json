@@ -1,0 +1,5214 @@
+{
+  "date": "2026-11-14",
+  "failed_repos": [],
+  "per_repo": {
+    "seretos-agents/agent-autonomous-developer": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-autonomous-prompt-engineer": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-blender-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-chrome-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-comfy": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-godot-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-harness": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-line-feed-guard": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-meshy-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-project-issues": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 1379,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-serena-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-ticket-orchestrator": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 1134,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-unity-wrapper": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-vdesktop": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/agent-worktree": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/e2e-client": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-comfy": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-config": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-harness": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-projects": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 1196,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-vdesktop": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/lib-python-worktree": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/modular-software-factory": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 20,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/modular-software-factory-dev": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-agents/modular-software-factory-staging": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 20,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/avatar-pipeline": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/basic-fps": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/godot-testclient": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/mmo-server": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 13540,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/mmo-testclient": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 10193723,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/procedural-assets": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 7263,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/space-client": {
+      "branch_churn": {
+        "gross_added": 9493,
+        "net_added": 9246,
+        "per_pr": [
+          {
+            "gross_added": 1654,
+            "merge_sha": "e21e64499e5a2b4d300c5fe2b289ead730e5cacf",
+            "net_added": 1598,
+            "number": 390,
+            "value": 0.0339
+          },
+          {
+            "gross_added": 1504,
+            "merge_sha": "edb97b904d6644871ed3baf34d7a36e46c5d5549",
+            "net_added": 1473,
+            "number": 392,
+            "value": 0.0206
+          },
+          {
+            "gross_added": 1177,
+            "merge_sha": "448d17ae2d17fb40d43d05d9cd408669534808c9",
+            "net_added": 1162,
+            "number": 393,
+            "value": 0.0127
+          },
+          {
+            "gross_added": 307,
+            "merge_sha": "7ca55fb22c6001ee806d74beae2c030669d0396b",
+            "net_added": 304,
+            "number": 394,
+            "value": 0.0098
+          },
+          {
+            "gross_added": 559,
+            "merge_sha": "db61b96487457a7132761b60be044f0f7535ae8e",
+            "net_added": 549,
+            "number": 395,
+            "value": 0.0179
+          },
+          {
+            "gross_added": 993,
+            "merge_sha": "61fb8fe68c028a99fb491a6f519130b306bfbf76",
+            "net_added": 973,
+            "number": 396,
+            "value": 0.0201
+          },
+          {
+            "gross_added": 43,
+            "merge_sha": "c9b0ff71b6bf83d3863c2598d500289030c0654f",
+            "net_added": 43,
+            "number": 398,
+            "value": 0.0
+          },
+          {
+            "gross_added": 549,
+            "merge_sha": "b2727964c6c0cc7893f247e327c2111f070fbd73",
+            "net_added": 509,
+            "number": 399,
+            "value": 0.0729
+          },
+          {
+            "gross_added": 1382,
+            "merge_sha": "f619b55f8e22a1e3f741cf8505bbdc21582547e6",
+            "net_added": 1351,
+            "number": 400,
+            "value": 0.0224
+          },
+          {
+            "gross_added": 1325,
+            "merge_sha": "566ced13155c6088f3aee2511b075f29d60eac9e",
+            "net_added": 1284,
+            "number": 401,
+            "value": 0.0309
+          }
+        ],
+        "prs": 10,
+        "value": 0.026
+      },
+      "clarification": {
+        "clarifications": 1,
+        "frames": 1,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 2,
+        "questions": 1,
+        "re_cuts": 0,
+        "released": 1,
+        "released_without_asking": 0,
+        "value": 0.0
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 11,
+        "value": 0.0
+      },
+      "main_rework": {
+        "added_to_main": 142871,
+        "value": 0.0145,
+        "window_days": 21,
+        "young_removed": 2073
+      },
+      "regression_chains": {
+        "active": 15,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": 0.0
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {
+              "ci": {
+                "f": {
+                  "avg": 0.5,
+                  "median": 0.0,
+                  "p90": 2
+                },
+                "i": {
+                  "avg": 0.4167,
+                  "median": 0.0,
+                  "p90": 1
+                },
+                "used": {
+                  "avg": 1.4167,
+                  "median": 1.5,
+                  "p90": 3
+                }
+              },
+              "plan-critic": {
+                "f": {
+                  "avg": 0.25,
+                  "median": 0.0,
+                  "p90": 1
+                },
+                "i": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                },
+                "used": {
+                  "avg": 1,
+                  "median": 1.0,
+                  "p90": 2
+                }
+              },
+              "rebase": {
+                "f": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                },
+                "i": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                },
+                "used": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                }
+              },
+              "review": {
+                "f": {
+                  "avg": 0.1667,
+                  "median": 0.0,
+                  "p90": 1
+                },
+                "i": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                },
+                "used": {
+                  "avg": 1.25,
+                  "median": 1.0,
+                  "p90": 2
+                }
+              },
+              "test-critic": {
+                "f": {
+                  "avg": 0.1667,
+                  "median": 0.0,
+                  "p90": 1
+                },
+                "i": {
+                  "avg": 0,
+                  "median": 0.0,
+                  "p90": 0
+                },
+                "used": {
+                  "avg": 0.8333,
+                  "median": 1.0,
+                  "p90": 2
+                }
+              }
+            },
+            "infra_share": 0.0926,
+            "over_soft_cap_share": 0.0,
+            "sessions": 12
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": 1.5556,
+          "started": 14,
+          "tickets": 9
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 12,
+          "manual": 4,
+          "not_planned": 1,
+          "other": 0,
+          "pipeline": 9
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 11,
+          "released": 1,
+          "started": 14
+        },
+        "merged_prs": 10,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": 0.0,
+          "by_reason": {
+            "single": 1
+          },
+          "total": 1
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": 0.0042,
+            "n": 9,
+            "p90": 0.0047
+          },
+          "created_to_released": {
+            "median": 1.7022,
+            "n": 1,
+            "p90": 1.7022
+          },
+          "pr_opened_to_ci_green": {
+            "median": 0.5789,
+            "n": 9,
+            "p90": 1.7592
+          },
+          "released_to_started": {
+            "median": 30.9469,
+            "n": 9,
+            "p90": 45.3331
+          },
+          "started_to_pr_opened": {
+            "median": 1.3011,
+            "n": 9,
+            "p90": 35.445
+          }
+        }
+      }
+    },
+    "seretos-games/space-game": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 5504,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/space-server": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 70029,
+        "value": 0.0,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-avatar": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-cockpit": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-fps-controls": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-interaction": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-menu": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    },
+    "seretos-games/unity-world": {
+      "branch_churn": {
+        "gross_added": 0,
+        "net_added": 0,
+        "per_pr": [],
+        "prs": 0,
+        "value": null
+      },
+      "clarification": {
+        "clarifications": 0,
+        "frames": 0,
+        "frames_ac_rewritten": 0,
+        "frames_without_block": 0,
+        "hard_clarifications": 0,
+        "lane_splits": 0,
+        "not_proven": 0,
+        "premise_falsified": 0,
+        "premises": 0,
+        "questions": 0,
+        "re_cuts": 0,
+        "released": 0,
+        "released_without_asking": 0,
+        "value": null
+      },
+      "escalations": {
+        "auto_answered": 0,
+        "by_reason": {},
+        "escalated": 0,
+        "in_progress": 0,
+        "value": null
+      },
+      "main_rework": {
+        "added_to_main": 0,
+        "value": null,
+        "window_days": 21,
+        "young_removed": 0
+      },
+      "regression_chains": {
+        "active": 0,
+        "chain_active": 0,
+        "chains": [],
+        "detected": 0,
+        "value": null
+      },
+      "rounds": {
+        "lanes": {
+          "dev": {
+            "counting": "used",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          },
+          "prose": {
+            "counting": "f+i",
+            "gates": {},
+            "infra_share": null,
+            "over_soft_cap_share": null,
+            "sessions": 0
+          }
+        },
+        "replan_triggered": 0,
+        "sessions": {
+          "per_ticket": null,
+          "started": 0,
+          "tickets": 0
+        }
+      },
+      "throughput": {
+        "closed": {
+          "completed": 0,
+          "manual": 0,
+          "not_planned": 0,
+          "other": 0,
+          "pipeline": 0
+        },
+        "dependency_bumps": {
+          "closed": 0,
+          "created": 0
+        },
+        "events": {
+          "ci_green": 0,
+          "released": 0,
+          "started": 0
+        },
+        "merged_prs": 0,
+        "packages": {
+          "bundled": 0,
+          "bundled_share": null,
+          "by_reason": {},
+          "total": 0
+        },
+        "stages": {
+          "ci_green_to_done": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "created_to_released": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "pr_opened_to_ci_green": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "released_to_started": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          },
+          "started_to_pr_opened": {
+            "median": null,
+            "n": 0,
+            "p90": null
+          }
+        }
+      }
+    }
+  },
+  "schema_version": 2,
+  "totals": {
+    "branch_churn": {
+      "gross_added": 9493,
+      "net_added": 9246,
+      "prs": 10,
+      "value": 0.026
+    },
+    "clarification": {
+      "clarifications": 1,
+      "frames": 1,
+      "frames_ac_rewritten": 0,
+      "frames_without_block": 0,
+      "hard_clarifications": 0,
+      "lane_splits": 0,
+      "not_proven": 0,
+      "premise_falsified": 0,
+      "premises": 2,
+      "questions": 1,
+      "re_cuts": 0,
+      "released": 1,
+      "released_without_asking": 0,
+      "value": 0.0
+    },
+    "escalations": {
+      "auto_answered": 0,
+      "by_reason": {},
+      "escalated": 0,
+      "in_progress": 11,
+      "value": 0.0
+    },
+    "main_rework": {
+      "added_to_main": 10436679,
+      "value": 0.0002,
+      "window_days": 21,
+      "young_removed": 2073
+    },
+    "regression_chains": {
+      "active": 15,
+      "chain_active": 0,
+      "chains": [],
+      "detected": 0,
+      "value": 0.0
+    },
+    "rounds": {
+      "lanes": {
+        "dev": {
+          "counting": "used",
+          "gates": {
+            "ci": {
+              "f": {
+                "avg": 0.5,
+                "median": 0.0,
+                "p90": 2
+              },
+              "i": {
+                "avg": 0.4167,
+                "median": 0.0,
+                "p90": 1
+              },
+              "used": {
+                "avg": 1.4167,
+                "median": 1.5,
+                "p90": 3
+              }
+            },
+            "plan-critic": {
+              "f": {
+                "avg": 0.25,
+                "median": 0.0,
+                "p90": 1
+              },
+              "i": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              },
+              "used": {
+                "avg": 1,
+                "median": 1.0,
+                "p90": 2
+              }
+            },
+            "rebase": {
+              "f": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              },
+              "i": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              },
+              "used": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              }
+            },
+            "review": {
+              "f": {
+                "avg": 0.1667,
+                "median": 0.0,
+                "p90": 1
+              },
+              "i": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              },
+              "used": {
+                "avg": 1.25,
+                "median": 1.0,
+                "p90": 2
+              }
+            },
+            "test-critic": {
+              "f": {
+                "avg": 0.1667,
+                "median": 0.0,
+                "p90": 1
+              },
+              "i": {
+                "avg": 0,
+                "median": 0.0,
+                "p90": 0
+              },
+              "used": {
+                "avg": 0.8333,
+                "median": 1.0,
+                "p90": 2
+              }
+            }
+          },
+          "infra_share": 0.0926,
+          "over_soft_cap_share": 0.0,
+          "sessions": 12
+        },
+        "prose": {
+          "counting": "f+i",
+          "gates": {},
+          "infra_share": null,
+          "over_soft_cap_share": null,
+          "sessions": 0
+        }
+      },
+      "replan_triggered": 0,
+      "sessions": {
+        "per_ticket": 1.5556,
+        "started": 14,
+        "tickets": 9
+      }
+    },
+    "throughput": {
+      "closed": {
+        "completed": 12,
+        "manual": 4,
+        "not_planned": 1,
+        "other": 0,
+        "pipeline": 9
+      },
+      "dependency_bumps": {
+        "closed": 0,
+        "created": 0
+      },
+      "events": {
+        "ci_green": 11,
+        "released": 1,
+        "started": 14
+      },
+      "merged_prs": 10,
+      "packages": {
+        "bundled": 0,
+        "bundled_share": 0.0,
+        "by_reason": {
+          "single": 1
+        },
+        "total": 1
+      },
+      "stages": {
+        "ci_green_to_done": {
+          "median": 0.0042,
+          "n": 9,
+          "p90": 0.0047
+        },
+        "created_to_released": {
+          "median": 1.7022,
+          "n": 1,
+          "p90": 1.7022
+        },
+        "pr_opened_to_ci_green": {
+          "median": 0.5789,
+          "n": 9,
+          "p90": 1.7592
+        },
+        "released_to_started": {
+          "median": 30.9469,
+          "n": 9,
+          "p90": 45.3331
+        },
+        "started_to_pr_opened": {
+          "median": 1.3011,
+          "n": 9,
+          "p90": 35.445
+        }
+      }
+    }
+  }
+}
